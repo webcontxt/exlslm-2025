@@ -31,7 +31,7 @@
         android:enableOnBackInvokedCallback="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:usesCleartextTraffic="false"
-        android:label="CARRIER WCCD MEET 2025"
+        android:label="EXLSLM 2025"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <receiver
@@ -73,10 +73,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="https" />
-                <data android:host="applinks.evnts.info" android:pathPrefix="/3b9aca68"/> <!--staging-->
-                <data android:host="applinks.evnts.info" android:pathPrefix="/3b9aca67"/> <!--production-->
-
-            </intent-filter>
+                <data android:host="applinks.evnts.info" android:pathPrefix="/3b9aca70"/> <!--staging-->
+                <data android:host="applinks.evnts.info" android:pathPrefix="/3b9aca71"/> <!--production-->
+            
 
 
         </activity>

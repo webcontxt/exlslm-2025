@@ -3,7 +3,7 @@ class AppUrl {
   ///firebase base url config
   static String appName = "dreamcast2024";
   static const eventAppNode = "EventAppBaseUrl";
-  static String defaultNodeName = "carrieryatra";
+  static String defaultNodeName = "EXLSLM-2025";
 
   ///firebase database url dynamic updater from splash controller
   static String setDataBaseUrl = "https://dreamcast-event-app-8th-default-rtdb.firebaseio.com";
@@ -16,10 +16,10 @@ class AppUrl {
 
   /// ************** dynamic base url updated from the auth manager ************///
 
-   static String baseURLV1 = 'https://eappsapi.vehub.live/carrieryatra_25/api/v1/mwapp';
+   // static String baseURLV1 = '/api/v1/mwapp';
 
   /// staging url
-  // static String baseURLV1 = 'https://live.dreamcast.in/carrieryatra_25/api/v1/mwapp';
+  static String baseURLV1 = 'https://live.dreamcast.in/carrieryatra_25/api/v1/mwapp';
 
 
   /// Tt is is used for the load the splash url
