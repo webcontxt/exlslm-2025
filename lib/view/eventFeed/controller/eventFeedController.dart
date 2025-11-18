@@ -445,27 +445,15 @@ class EventFeedController extends GetxController {
     isLoading(false);
     if (responseModel?.status != null && responseModel!.status!) {
       clearTheMedia();
-      await Get.dialog(
-          barrierDismissible: false,
-          CustomAnimatedDialogWidget(
-            title: "",
-            logo: ImageConstant.icSuccessAnimated,
-            description: responseModel.body?.message ?? "",
-            buttonAction: "okay".tr,
-            buttonCancel: "cancel".tr,
-            isHideCancelBtn: true,
-            onCancelTap: () {},
-            onActionTap: () async {},
-          ));
-
-      // UiHelper.showSuccessMsg(
-      //     null, responseModel.body?.message ?? "feed_submit_success".tr);
+      UiHelper.showSuccessMsg(
+          null, responseModel.body?.message ?? "feed_submit_success".tr);
       return true;
     } else {
       UiHelper.showFailureMsg(null, responseModel?.message ?? "");
       return false;
     }
   }
+
 
   /// Clears the media files and resets the state.
   clearTheMedia() {

@@ -410,9 +410,9 @@ class HubController extends GetxController {
         break;
 
       case "helpdesk":
-        dashboardController.changeTabIndex(3);
-        // navigateTo(HelpDeskDashboard.routeName,
-        //     arguments: {MyConstant.titleKey: menuData.label});
+        // dashboardController.changeTabIndex(3);
+        navigateTo(HelpDeskDashboard.routeName,
+            arguments: {MyConstant.titleKey: menuData.label});
         break;
 
       case "partners":
@@ -594,6 +594,21 @@ class HubController extends GetxController {
           });
         }
         break;
+      case "image-wall":
+        if (isLoggedIn()) {
+
+        }
+        break;
+      case "picbot":
+        if (isLoggedIn()) {
+
+        }
+        break;
+      case "contact-us":
+        if (isLoggedIn()) {
+          dashboardController.changeTabIndex(3);
+        }
+        break ;
     }
   }
 

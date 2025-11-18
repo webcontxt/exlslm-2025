@@ -19,7 +19,7 @@ class AppUrl {
    // static String baseURLV1 = '/api/v1/mwapp';
 
   /// staging url
-  static String baseURLV1 = 'https://live.dreamcast.in/carrieryatra_25/api/v1/mwapp';
+  static String baseURLV1 = 'https://live.dreamcast.in/exlslm_25/api/v1/mwapp';
 
 
   /// Tt is is used for the load the splash url

@@ -24,48 +24,48 @@ class LoginPageOTP extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => PopScope(
-          canPop: controller.isOtpSend.value == false,
-          onPopInvokedWithResult: (didPop, disposition) {
-            if (!didPop && controller.isOtpSend.value) {
-              controller.isOtpSend(false);
-            }
-          },
-          child: Scaffold(
-            resizeToAvoidBottomInset:
-                false, // Prevents UI shift when the keyboard appears
-            body: Stack(
+      canPop: controller.isOtpSend.value == false,
+      onPopInvokedWithResult: (didPop, disposition) {
+        if (!didPop && controller.isOtpSend.value) {
+          controller.isOtpSend(false);
+        }
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset:
+        false, // Prevents UI shift when the keyboard appears
+        body: Stack(
+          children: [
+            _buildBgImage(context), // Background image
+            Column(
+              mainAxisSize: MainAxisSize.min, // Uses only required space
               children: [
-                _buildBgImage(context), // Background image
-                Column(
-                  mainAxisSize: MainAxisSize.min, // Uses only required space
-                  children: [
-                    _buildLoginLogo(), // Logo widget
-                    SizedBox(height: 15.v),
-                    // Observing `signup form` state and rebuilding only this widget
-                    Obx(() => controller.signupform.value
-                        ? LoginSignupWidget(isGuestForm: false)
-                        : LoginFormWidget(isGuestForm: false)),
-                  ],
-                ),
-                // Aligning bottom image at the bottom
-                // Align(
-                //     alignment: Alignment.bottomCenter,
-                //     child: _buildBottomImage()),
+                // _buildLoginLogo(), // Logo widget
+                SizedBox(height: 153.v),
+                // Observing `signup form` state and rebuilding only this widget
+                Obx(() => controller.signupform.value
+                    ? LoginSignupWidget(isGuestForm: false)
+                    : LoginFormWidget(isGuestForm: false)),
               ],
             ),
-          ),
-        ));
+            // Aligning bottom image at the bottom
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: _buildBottomImage()),
+          ],
+        ),
+      ),
+    ));
   }
 
   /// Builds the login logo, showing network image if available, else uses asset image.
   Widget _buildLoginLogo() {
     final logoUrl = _authManager.configModel.body?.meta?.logos?.icon;
     return Padding(
-      padding: EdgeInsets.only(top: 32.v),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: logoUrl != null && logoUrl.isNotEmpty
-          ? Image.network(logoUrl, height: 176, fit: BoxFit.contain)
+          ? Image.network(logoUrl, height: 45, fit: BoxFit.contain)
           : Image.asset(ImageConstant.header_logo,
-              height: 45, fit: BoxFit.contain),
+          height: 45, fit: BoxFit.contain),
     );
   }
 

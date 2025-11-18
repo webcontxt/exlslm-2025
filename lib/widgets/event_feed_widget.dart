@@ -399,47 +399,47 @@ class EventFeedChildWidget extends GetView<EventFeedController> {
                     ),
                   ),
                 ),
-                // Container(
-                //   height: 30,
-                //   color: borderColor,
-                //   width: 1,
-                // ),
-                // Expanded(
-                //   flex: 1,
-                //   child: GestureDetector(
-                //     onTap: () async {
-                //       homeController.loading(isLaunchpad);
-                //       controller.loading(true);
-                //       await controller.getFeedCommentList(
-                //           feedId: posts.id ?? "");
-                //       homeController.loading(false);
-                //       controller.loading(false);
-                //       controller.feedDataList[controller.lastIndexPlay]
-                //           .isPlayVideo = false;
-                //       controller.feedDataList.refresh();
-                //       getCommentListBottomSheet(context, posts, index, true);
-                //     },
-                //     child: Container(
-                //       color: Colors.transparent,
-                //       child: Row(
-                //         mainAxisSize: MainAxisSize.min,
-                //         mainAxisAlignment: MainAxisAlignment.center,
-                //         children: [
-                //           SvgPicture.asset(ImageConstant.icComment,
-                //               colorFilter: ColorFilter.mode(
-                //                   Theme.of(context).colorScheme.onSurface,
-                //                   BlendMode.srcIn)),
-                //           CustomTextView(
-                //             text: "comment".tr,
-                //             fontWeight: FontWeight.w500,
-                //             color: colorSecondary,
-                //             fontSize: 14,
-                //           )
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // )
+                Container(
+                  height: 30,
+                  color: borderColor,
+                  width: 1,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: () async {
+                      homeController.loading(isLaunchpad);
+                      controller.loading(true);
+                      await controller.getFeedCommentList(
+                          feedId: posts.id ?? "");
+                      homeController.loading(false);
+                      controller.loading(false);
+                      controller.feedDataList[controller.lastIndexPlay]
+                          .isPlayVideo = false;
+                      controller.feedDataList.refresh();
+                      getCommentListBottomSheet(context, posts, index, true);
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(ImageConstant.icComment,
+                              colorFilter: ColorFilter.mode(
+                                  Theme.of(context).colorScheme.onSurface,
+                                  BlendMode.srcIn)),
+                          CustomTextView(
+                            text: "comment".tr,
+                            fontWeight: FontWeight.w500,
+                            color: colorSecondary,
+                            fontSize: 14,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ],

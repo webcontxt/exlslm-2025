@@ -178,8 +178,8 @@ class LoginController extends GetxController {
   Future<void> shareVerificationCode(
       String mobile, BuildContext context) async {
     var loginRequest = {
-      "mobile": mobile ?? "",
-      "country_code": selectedCountryCode.value ?? "",
+      "email": mobile ?? "",
+      // "country_code": selectedCountryCode.value ?? "",
     };
     isLoading(true);
 

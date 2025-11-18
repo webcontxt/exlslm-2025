@@ -53,25 +53,42 @@ class HubMenuPage extends GetView<HubController> {
                       },
                     );
                   },
-                  child: SingleChildScrollView(
-                    child: Skeletonizer(
-                      enabled: controller.loading.value,
-                      child: controller.loading.value
-                          ? HubSkeletonWidget()
-                          : Column(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),  // Important
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,            // Fix refresh
+                          ),
+                          child: Skeletonizer(
+                            enabled: controller.loading.value,
+                            child: controller.loading.value
+                                ? HubSkeletonWidget()
+                                : Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 controller.hubTopMenu.isEmpty
                                     ? const SizedBox()
                                     : buildParentMenuList(context),
                                 SizedBox(
-                                  height:
-                                      controller.hubTopMenu.isEmpty ? 0 : 20,
+                                  height: controller.hubTopMenu.isEmpty ? 0 : 20,
                                 ),
-                                buildMenuList(context)
+                                controller.hubMenuMain.isEmpty
+                                    ? Center(
+                                  child: CustomTextView(
+                                    text: "No data available",
+                                    fontSize: 16,
+                                    color: colorSecondary,
+                                  ),
+                                )
+                                    : buildMenuList(context),
                               ],
                             ),
-                    ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

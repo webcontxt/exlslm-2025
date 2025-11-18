@@ -43,7 +43,7 @@ class LoginSignupWidget extends GetView<LoginController> {
           key: formKey,
           child: Container(
             decoration: BoxDecoration(
-                color: white,
+                color: lightGray,
                 borderRadius: BorderRadius.all(Radius.circular(12))),
             margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 40),
             padding:

@@ -23,7 +23,7 @@ Color backgroundColor = const Color(0xffFFFFFF);
 
 Color get white => backgroundColor;
 
-const defaultCheckboxColor = Color(/*0xffDBE2EA*/ 0xFFC4C4C6);
+const defaultCheckboxColor = Color(0xFFC4C4C6);
 
 Color border = const Color(0xffDCDCDD);
 Color borderDark = const Color(0xffDCDCDD);

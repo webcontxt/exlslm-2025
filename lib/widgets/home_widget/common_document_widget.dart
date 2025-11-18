@@ -115,7 +115,7 @@ class CommonDocumentWidget extends GetView<CommonDocumentController> {
                             color: Colors.white,
                           )
                         : AnimatedBookmarkWidget(
-                            isDocumentBookmark: true,
+                            isDocumentBookmark: false,
                             bookMarkIdsList: controller.bookMarkIdsList,
                             onTap: () {
                               onBookmarkTap?.call();

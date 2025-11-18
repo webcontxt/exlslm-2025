@@ -48,7 +48,7 @@ class InputFormField extends StatelessWidget {
       minFontSize: 12,
       maxLines: 1,
       fullwidth: true,
-      textAlign: TextAlign.left,
+      textAlign: TextAlign.center,
       textInputAction: inputAction,
       keyboardType: inputType,
       inputFormatters: inputFormatters == null
@@ -68,51 +68,46 @@ class InputFormField extends StatelessWidget {
         isCollapsed: true,
         contentPadding: EdgeInsets.zero,
         filled: true,
-        border: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
-        // disabledBorder: UnderlineInputBorder(
-        //   borderSide: BorderSide(
-        //     color: backgroundColor.withOpacity(0.39),
-        //     width: 4.0,
-        //   ),
-        // ),
-        // errorBorder: UnderlineInputBorder(
-        //   borderSide: BorderSide(
-        //     color: backgroundColor.withOpacity(0.39),
-        //     width: 4.0,
-        //   ),
-        // ),
-        // focusedBorder: UnderlineInputBorder(
-        //   borderSide: BorderSide(
-        //     color: backgroundColor.withOpacity(0.39),
-        //     width: 4.0,
-        //   ),
-        // ),
-        // focusedErrorBorder: UnderlineInputBorder(
-        //   borderSide: BorderSide(
-        //     color: backgroundColor.withOpacity(0.39),
-        //     width: 4.0,
-        //   ),
-        // ),
-        // border: UnderlineInputBorder(
-        //   borderSide: BorderSide(
-        //     color: backgroundColor.withOpacity(0.39),
-        //     width: 4.0,
-        //   ),
-        // ),
-        // enabledBorder: UnderlineInputBorder(
-        //   borderSide: BorderSide(
-        //     color: backgroundColor.withOpacity(0.39),
-        //     width: 4.0,
-        //   ),
-        // ),
+        disabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: defaultCheckboxColor.withOpacity(0.39),
+            width: 4.0,
+          ),
+        ),
+        errorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: defaultCheckboxColor.withOpacity(0.39),
+            width: 4.0,
+          ),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: defaultCheckboxColor.withOpacity(0.39),
+            width: 4.0,
+          ),
+        ),
+        focusedErrorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: defaultCheckboxColor.withOpacity(0.39),
+            width: 4.0,
+          ),
+        ),
+        border: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: defaultCheckboxColor.withOpacity(0.39),
+            width: 4.0,
+          ),
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: defaultCheckboxColor.withOpacity(0.39),
+            width: 4.0,
+          ),
+        ),
         hintStyle: TextStyle(
           color: defaultCheckboxColor,
           fontWeight: FontWeight.w700,
-          fontSize: Platform.isAndroid ? 28.fSize : 28.fSize,
+          fontSize: 34.fSize,
         ),
         hintText: hintText,
         fillColor: Colors.transparent,

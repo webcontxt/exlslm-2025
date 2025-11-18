@@ -1,13 +1,11 @@
 import 'package:dreamcast/theme/app_colors.dart';
-import 'package:dreamcast/utils/size_utils.dart';
+import 'package:dreamcast/utils/pref_utils.dart';
 import 'package:dreamcast/widgets/textview/customTextView.dart';
 import 'package:dreamcast/view/eventFeed/controller/eventFeedController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../utils/image_constant.dart';
-import '../../../widgets/app_bar/appbar_leading_image.dart';
-import '../../../widgets/app_bar/custom_app_bar.dart';
+import '../../../theme/ui_helper.dart';
 import '../../../widgets/loading.dart';
 import '../../../widgets/button/common_material_button.dart';
 import '../../../widgets/toolbarTitle.dart';
@@ -18,9 +16,9 @@ class FeedReportPage extends GetView<EventFeedController> {
   bool isReportPost;
   FeedReportPage(
       {Key? key,
-      required this.eventFeedId,
-      this.feedCommentId,
-      required this.isReportPost})
+        required this.eventFeedId,
+        this.feedCommentId,
+        required this.isReportPost})
       : super(key: key);
   static const routeName = "/FeedbackPage";
   final TextEditingController textAreaController = TextEditingController();
@@ -28,24 +26,17 @@ class FeedReportPage extends GetView<EventFeedController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-      height: 72.v,
-      leadingWidth: 45.h,
-      leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgArrowLeft,
-        margin: EdgeInsets.only(
-          left: 7.h,
-          top: 3,
-          // bottom: 12.v,
+      appBar: AppBar(
+        centerTitle: false,
+        title: ToolbarTitle(
+          title: "report_on_Feed".tr,
+          color: Colors.black,
         ),
-        onTap: () {
-          Get.back();
-        },
+        elevation: 0,
+        shape: Border(bottom: BorderSide(color: borderColor, width: 1)),
+        backgroundColor: white,
+        iconTheme: IconThemeData(color: colorSecondary),
       ),
-      title: ToolbarTitle(
-        title: "report_on_Feed".tr,
-      ),
-    ),
       body: Container(
           padding: const EdgeInsets.all(10),
           child: GetX<EventFeedController>(builder: (controller) {
@@ -55,28 +46,44 @@ class FeedReportPage extends GetView<EventFeedController> {
                   children: [
                     buildSelectionWidget(),
                     controller.selectedReportOption.value ==
-                            controller.commentResign.length - 1
+                        controller.commentResign.length - 1
                         ? textArea()
                         : const SizedBox(),
                     CommonMaterialButton(
                       text: 'Submit',
                       width: 160,
                       onPressed: () async {
-                        if (isReportPost) {
-                          controller.reportPostApi(requestBody: {
-                            "feed_id": eventFeedId,
-                            "reason": controller.commentResign[
-                                controller.selectedReportOption.value]
-                          });
+                        String reason;
+                        // Check if last option selected
+                        bool isCustomReason =
+                            controller.commentResign.length - 1 == controller.selectedReportOption.value;
+                        // Validate custom text
+                        if (isCustomReason) {
+                          if (textAreaController.text.trim().isEmpty) {
+                            UiHelper.showFailureMsg(null, "enter_description".tr);
+                            return;
+                          }
+                          reason = textAreaController.text.trim();
                         } else {
-                          controller.reportCommentApi(requestBody: {
-                            "feed_id": eventFeedId,
-                            "feed_comment_id": feedCommentId,
-                            "reason": controller.commentResign[
-                                controller.selectedReportOption.value]
-                          });
+                          reason = controller.commentResign[controller.selectedReportOption.value];
                         }
-
+                        // Call correct API
+                        if (isReportPost) {
+                          controller.reportPostApi(
+                            requestBody: {
+                              "feed_id": eventFeedId,
+                              "reason": reason,
+                            },
+                          );
+                        } else {
+                          controller.reportCommentApi(
+                            requestBody: {
+                              "feed_id": eventFeedId,
+                              "feed_comment_id": feedCommentId,
+                              "reason": reason,
+                            },
+                          );
+                        }
                         Get.back();
                       },
                     )
@@ -115,12 +122,12 @@ class FeedReportPage extends GetView<EventFeedController> {
                       textAlign: TextAlign.start,
                     ),
                     trailing: Obx(() => Icon(
-                      color: colorSecondary,
-                          controller.selectedReportOption.value != -1 &&
-                                  controller.selectedReportOption.value == index
-                              ? Icons.radio_button_checked
-                              : Icons.radio_button_off,
-                        ))),
+                      color: Colors.black,
+                      controller.selectedReportOption.value != -1 &&
+                          controller.selectedReportOption.value == index
+                          ? Icons.radio_button_checked
+                          : Icons.radio_button_off,
+                    ))),
               );
             }));
   }
