@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+
+    <!-- Allow only secure HTTPS traffic to eventapp.godreamcast.com -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">eventapp.godreamcast.com</domain>
+    </domain-config>
+
+    <!-- Allow only secure HTTPS traffic to live.dreamcast.in -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">live.dreamcast.in</domain>
+    </domain-config>
+
+    <!-- Allow only secure HTTPS traffic to development.dreamcast.in -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">development.dreamcast.in</domain>
+    </domain-config>
+
+    <!-- Block cleartext traffic for all other domains -->
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>
+

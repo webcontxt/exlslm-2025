@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+  <g id="select" transform="translate(-155 -7)">
+    <g id="Controls_Checkbox_Checked" data-name="Controls/Checkbox/Checked" transform="translate(155 7)">
+      <g id="Controls_Checkbox_Checked-2" data-name="Controls/Checkbox/Checked">
+        <g id="Base" fill="#4658a7">
+          <path d="M 18 21.5 L 4 21.5 C 2.070090055465698 21.5 0.5 19.92991065979004 0.5 18 L 0.5 4 C 0.5 2.070090055465698 2.070090055465698 0.5 4 0.5 L 18 0.5 C 19.92991065979004 0.5 21.5 2.070090055465698 21.5 4 L 21.5 18 C 21.5 19.92991065979004 19.92991065979004 21.5 18 21.5 Z" stroke="none"/>
+          <path d="M 4 1 C 2.345790863037109 1 1 2.345790863037109 1 4 L 1 18 C 1 19.65420913696289 2.345790863037109 21 4 21 L 18 21 C 19.65420913696289 21 21 19.65420913696289 21 18 L 21 4 C 21 2.345790863037109 19.65420913696289 1 18 1 L 4 1 M 4 0 L 18 0 C 20.20914077758789 0 22 1.790859222412109 22 4 L 22 18 C 22 20.20914077758789 20.20914077758789 22 18 22 L 4 22 C 1.790859222412109 22 0 20.20914077758789 0 18 L 0 4 C 0 1.790859222412109 1.790859222412109 0 4 0 Z" stroke="none" fill="#fff"/>
+        </g>
+        <rect id="Icon_Check_background" data-name="Icon/Check background" width="19.067" height="19.067" transform="translate(1.467 1.467)" fill="none"/>
+      </g>
+      <g id="Icon_Check" data-name="Icon/Check" transform="translate(1.467 1.467)">
+        <path id="Grid" d="M0,0H19.067V19.067H0Z" fill="none"/>
+        <path id="Mask" d="M11.233.186a.661.661,0,0,1,.919,0,.624.624,0,0,1,0,.9l-7.8,7.612a.661.661,0,0,1-.919,0L.19,5.523a.624.624,0,0,1,0-.9.661.661,0,0,1,.919,0L3.9,7.349Z" transform="translate(3.3 4.767)" fill="#fff" stroke="#fff" stroke-width="0.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,201 @@
+{
+  "project_info": {
+    "project_number": "398433412899",
+    "firebase_url": "https://dreamcast-event-app-8th-default-rtdb.firebaseio.com",
+    "project_id": "dreamcast-event-app-8th",
+    "storage_bucket": "dreamcast-event-app-8th.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398433412899:android:d339ecc811010e0a830e96",
+        "android_client_info": {
+          "package_name": "com.d3.ust"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEk8USEqB11tHZRmII_E5d_EQKU33KnSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398433412899:android:eb37a5039f60802f830e96",
+        "android_client_info": {
+          "package_name": "com.dreamcast.carrieryatra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEk8USEqB11tHZRmII_E5d_EQKU33KnSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398433412899:android:de9f2754103e269f830e96",
+        "android_client_info": {
+          "package_name": "com.dreamcast.iew2025"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEk8USEqB11tHZRmII_E5d_EQKU33KnSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398433412899:android:4b9d685d5119c484830e96",
+        "android_client_info": {
+          "package_name": "com.dreamcast.isacon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEk8USEqB11tHZRmII_E5d_EQKU33KnSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398433412899:android:bcbb6eac67d8c2b0830e96",
+        "android_client_info": {
+          "package_name": "com.dreamcast.maithri"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEk8USEqB11tHZRmII_E5d_EQKU33KnSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398433412899:android:455a9941c09c8abd830e96",
+        "android_client_info": {
+          "package_name": "com.dreamcast.microlab"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEk8USEqB11tHZRmII_E5d_EQKU33KnSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398433412899:android:d5d0aa5acd1ffdd6830e96",
+        "android_client_info": {
+          "package_name": "com.dreamcast.royalenfield"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEk8USEqB11tHZRmII_E5d_EQKU33KnSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398433412899:android:f9d2341b413c8358830e96",
+        "android_client_info": {
+          "package_name": "com.event.exlslm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEk8USEqB11tHZRmII_E5d_EQKU33KnSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398433412899:android:1b1caa592052da64830e96",
+        "android_client_info": {
+          "package_name": "com.event.nit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEk8USEqB11tHZRmII_E5d_EQKU33KnSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398433412899:android:ceff281e0d5ce250830e96",
+        "android_client_info": {
+          "package_name": "com.event.shobiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEk8USEqB11tHZRmII_E5d_EQKU33KnSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
