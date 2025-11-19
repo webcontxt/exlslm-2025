@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dreamcast/routes/my_constant.dart';
 import 'package:dreamcast/utils/size_utils.dart';
 import 'package:dreamcast/widgets/textview/customTextView.dart';
@@ -85,6 +86,8 @@ class ProfileInputFormField extends GetView<EditProfileController> {
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         textInputAction: TextInputAction.done,
+        textAlign: TextAlign.start,
+        textAlignVertical: TextAlignVertical.top,
         controller: textAreaController,
         enabled: !(createFieldBody.readonly ?? false),
         maxLength: getMaxLength(),
@@ -99,7 +102,7 @@ class ProfileInputFormField extends GetView<EditProfileController> {
         },
         decoration: InputDecoration(
           counter: const Offstage(),
-          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          contentPadding: const EdgeInsets.fromLTRB(20, 0, 10, 0),
           labelText: getLabelText(),
           hintText: createFieldBody.placeholder ?? "",
           hintStyle: AppDecoration.setTextStyle(
@@ -111,31 +114,21 @@ class ProfileInputFormField extends GetView<EditProfileController> {
               color: colorGray,
               fontWeight: FontWeight.normal),
           fillColor:
-              createFieldBody.readonly == true ? colorLightGray : white,
+          createFieldBody.readonly == true ? colorLightGray : white,
           filled: true,
           prefix: createFieldBody.name == "mobile"
               ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CustomTextView(
-                      text: mobileCode??"",
-                      fontSize: 15.fSize,
-                      color: colorSecondary,
-                    ),
-                    const Icon(
-                      Icons.arrow_drop_down,
-                      size: 18,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 6.0),
-                      child: Container(
-                        width: 1,
-                        height: 20,
-                        color: colorLightGray,
-                      ),
-                    )
-                  ],
-                )
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Stack(
+                alignment: Alignment.centerLeft,
+                children: [
+                  selectedCountryCode(),
+                ],
+              ),
+            ],
+          )
               : const SizedBox(),
           prefixIconConstraints: const BoxConstraints(minWidth: 60),
           enabledBorder: createFieldBody.isAiFormField == true
@@ -172,4 +165,65 @@ class ProfileInputFormField extends GetView<EditProfileController> {
       ),
     );
   }
+
+
+
+
+  selectedCountryCode() {
+    String countryCode = getCountryIsoFromDialCode(controller.selectedCountryCode.value ?? '');
+    if(countryCode != null && countryCode.isNotEmpty && countryCode !="null"){
+      controller.selectedCountry.value = countryCode ?? '';
+    }else{
+      controller.selectedCountry.value = '';
+      controller.selectedCountryCode.value = "";
+    }
+    return CountryCodePicker(
+      barrierColor: widgetBackgroundColor.withOpacity(0.7),
+      backgroundColor: white,
+      dialogBackgroundColor: white,
+      padding: const EdgeInsets.all(0),
+      // flagWidth: 0.adaptSize,
+      headerText: "Select Country",
+      textStyle: TextStyle(
+        fontSize: 15.fSize,
+        fontFamily: MyConstant.currentFont,
+        color: colorSecondary,
+        fontWeight: FontWeight.w400,
+      ),
+      onChanged: (country) {
+        // print(country.dialCode);
+        controller.selectedCountryCode.value = country.dialCode ?? '+91';
+        controller.selectedCountry.value = country.code ?? 'IN';
+      },
+      showDropDownButton: true,
+      showFlag: false,
+
+      initialSelection: controller.selectedCountryCode.value ?? 'IN',
+      favorite: [
+        controller.selectedCountryCode.value.isNotEmpty
+            ? controller.selectedCountryCode.value
+            : '+91',
+        controller.selectedCountry.value.isNotEmpty
+            ? controller.selectedCountry.value
+            : 'IN',
+      ],
+      showCountryOnly: false,
+      showOnlyCountryWhenClosed: false,
+      // alignLeft: true,
+    );
+
+  }
+
+
+  String getCountryIsoFromDialCode(String dialCode) {
+    if(dialCode.isEmpty || dialCode == null){
+      return "";
+    }
+    // This will return a single CountryCode object for the dial code
+    final country = CountryCode.fromDialCode(dialCode);
+    // Fallback to IN if null
+    return country.code ?? 'IN';
+  }
+
+
 }

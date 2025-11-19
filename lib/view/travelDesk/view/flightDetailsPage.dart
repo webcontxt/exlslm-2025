@@ -33,7 +33,7 @@ class FlightDetailsWidget extends GetView<FlightController> {
     return GetX<FlightController>(builder: (controller) {
       var details = controller.travelFlightDetails.value.body?.flightInfo;
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.h),
+        padding: EdgeInsets.only(left: 16.h, right: 16.h, top: 16.v),
         child: RefreshIndicator(
           key: _refreshIndicatorKey,
           onRefresh: _refreshData,

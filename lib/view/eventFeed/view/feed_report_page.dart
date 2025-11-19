@@ -1,11 +1,14 @@
 import 'package:dreamcast/theme/app_colors.dart';
-import 'package:dreamcast/utils/pref_utils.dart';
+import 'package:dreamcast/utils/size_utils.dart';
 import 'package:dreamcast/widgets/textview/customTextView.dart';
 import 'package:dreamcast/view/eventFeed/controller/eventFeedController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../theme/ui_helper.dart';
+import '../../../utils/image_constant.dart';
+import '../../../widgets/app_bar/appbar_leading_image.dart';
+import '../../../widgets/app_bar/custom_app_bar.dart';
 import '../../../widgets/loading.dart';
 import '../../../widgets/button/common_material_button.dart';
 import '../../../widgets/toolbarTitle.dart';
@@ -26,16 +29,23 @@ class FeedReportPage extends GetView<EventFeedController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
+      appBar: CustomAppBar(
+        height: 72.v,
+        leadingWidth: 45.h,
+        leading: AppbarLeadingImage(
+          imagePath: ImageConstant.imgArrowLeft,
+          margin: EdgeInsets.only(
+            left: 7.h,
+            top: 3,
+            // bottom: 12.v,
+          ),
+          onTap: () {
+            Get.back();
+          },
+        ),
         title: ToolbarTitle(
           title: "report_on_Feed".tr,
-          color: Colors.black,
         ),
-        elevation: 0,
-        shape: Border(bottom: BorderSide(color: borderColor, width: 1)),
-        backgroundColor: white,
-        iconTheme: IconThemeData(color: colorSecondary),
       ),
       body: Container(
           padding: const EdgeInsets.all(10),
@@ -122,7 +132,7 @@ class FeedReportPage extends GetView<EventFeedController> {
                       textAlign: TextAlign.start,
                     ),
                     trailing: Obx(() => Icon(
-                      color: Colors.black,
+                      color: colorSecondary,
                       controller.selectedReportOption.value != -1 &&
                           controller.selectedReportOption.value == index
                           ? Icons.radio_button_checked

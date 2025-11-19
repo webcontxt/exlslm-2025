@@ -2,6 +2,7 @@ import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:dreamcast/routes/my_constant.dart';
 import 'package:dreamcast/utils/size_utils.dart';
 import 'package:dreamcast/view/home/controller/home_controller.dart';
+import 'package:dreamcast/view/quiz/view/feedback_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -54,94 +55,94 @@ class PreEventWidget extends GetView<HomeController> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        eventStatus == 2
+                        eventStatus == 2 || eventStatus == 1
                             ? const SizedBox()
                             : Container(
-                                height: 88.h,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 14.h,
-                                  vertical: 3.v,
-                                ),
-                                decoration: AppDecoration.fillGray.copyWith(
-                                  borderRadius:
-                                      BorderRadiusStyle.roundedBorder10,
-                                ),
-                                width: context.width,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        CustomTextView(
-                                          text: "event_begins_in".tr,
-                                          maxLines: 1,
-                                          textAlign: TextAlign.start,
-                                          color: colorGray,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        CustomTextView(
-                                          text: controller
-                                                  .eventRemainingTime.value ??
-                                              "",
-                                          maxLines: 1,
-                                          textAlign: TextAlign.start,
-                                          color: colorSecondary,
-                                          fontSize: 26,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ],
-                                    ),
-                                    GestureDetector(
-                                        onTap: () {
-                                          var url = controller.configDetailBody
-                                                  .value.location?.url ??
-                                              "";
-                                          UiHelper.inAppBrowserView(
-                                              Uri.parse(url.toString()));
-                                        },
-                                        child: Skeleton.shade(
-                                          child: SvgPicture.asset(
-                                            isDarkMode
-                                                ? ImageConstant.ic_location_dark
-                                                : ImageConstant.ic_location,
-                                            height: 58,
-                                            width: 57,
-                                          ),
-                                        )),
-                                  ],
-                                ),
+                          height: 88.h,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 14.h,
+                            vertical: 3.v,
+                          ),
+                          decoration: AppDecoration.fillGray.copyWith(
+                            borderRadius:
+                            BorderRadiusStyle.roundedBorder10,
+                          ),
+                          width: context.width,
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CustomTextView(
+                                    text: "event_begins_in".tr,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.start,
+                                    color: colorGray,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  CustomTextView(
+                                    text: controller
+                                        .eventRemainingTime.value ??
+                                        "",
+                                    maxLines: 1,
+                                    textAlign: TextAlign.start,
+                                    color: colorSecondary,
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
                               ),
+                              GestureDetector(
+                                  onTap: () {
+                                    var url = controller.configDetailBody
+                                        .value.location?.url ??
+                                        "";
+                                    UiHelper.inAppBrowserView(
+                                        Uri.parse(url.toString()));
+                                  },
+                                  child: Skeleton.shade(
+                                    child: SvgPicture.asset(
+                                      isDarkMode
+                                          ? ImageConstant.ic_location_dark
+                                          : ImageConstant.ic_location,
+                                      height: 58,
+                                      width: 57,
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        ),
                         SizedBox(
-                          height: eventStatus == 2 ? 0 : 14.v,
+                          height: eventStatus == 2 || eventStatus == 1 ? 0 : 14.v,
                         ),
                         Row(
                           children: [
                             Expanded(
                               flex: 1,
                               child: AspectRatio(
-                                aspectRatio: 169 / 156,
+                                aspectRatio: 1 / 1,
                                 child: Container(
                                   height: context.height,
                                   padding: EdgeInsets.all(16.h),
                                   decoration: AppDecoration.fillGray.copyWith(
                                     borderRadius:
-                                        BorderRadiusStyle.roundedBorder10,
+                                    BorderRadiusStyle.roundedBorder10,
                                   ),
                                   width: context.width,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Skeleton.shade(
                                         child: SvgPicture.asset(
@@ -158,7 +159,7 @@ class PreEventWidget extends GetView<HomeController> {
                                       Expanded(
                                         child: CustomTextView(
                                           text: controller.configDetailBody
-                                                  .value.datetime?.text ??
+                                              .value.datetime?.text ??
                                               "",
                                           textAlign: TextAlign.start,
                                           maxLines: 2,
@@ -174,7 +175,7 @@ class PreEventWidget extends GetView<HomeController> {
                                             flex: 8,
                                             child: Text(
                                               controller.configDetailBody.value
-                                                      .location?.shortText ??
+                                                  .location?.shortText ??
                                                   "",
                                               style: TextStyle(
                                                 fontSize: 14,
@@ -186,77 +187,79 @@ class PreEventWidget extends GetView<HomeController> {
                                               maxLines: 2,
                                             ),
                                           ),
-                                          const SizedBox(
+                                          eventStatus == 2 || eventStatus == 1
+                                              ? SizedBox()
+                                         : const SizedBox(
                                             width: 6,
                                           ),
-                                          eventStatus == 2
+                                          eventStatus == 2 || eventStatus == 1
                                               ? const SizedBox()
                                               : Skeleton.shade(
-                                                  child: InkWell(
-                                                    onTap: () async {
-                                                      await Add2Calendar
-                                                          .addEvent2Cal(
-                                                        controller.buildEvent(
-                                                            controller
-                                                                    .configDetailBody
-                                                                    .value
-                                                                    .name ??
-                                                                "",
-                                                            controller
-                                                                    .configDetailBody
-                                                                    .value
-                                                                    .location
-                                                                    ?.shortText ??
-                                                                ""),
-                                                      ).then((success) {
-                                                        if (success) {
-                                                          Future.delayed(
-                                                              const Duration(
-                                                                  seconds: 1),
-                                                              () {
-                                                            UiHelper.showSuccessMsg(
-                                                                context,
-                                                                "event_added_success"
-                                                                    .tr);
-                                                          });
-                                                        } else {
-                                                          print(
-                                                              'event_added_failed'
+                                            child: InkWell(
+                                              onTap: () async {
+                                                await Add2Calendar
+                                                    .addEvent2Cal(
+                                                  controller.buildEvent(
+                                                      controller
+                                                          .configDetailBody
+                                                          .value
+                                                          .name ??
+                                                          "",
+                                                      controller
+                                                          .configDetailBody
+                                                          .value
+                                                          .location
+                                                          ?.shortText ??
+                                                          ""),
+                                                ).then((success) {
+                                                  if (success) {
+                                                    Future.delayed(
+                                                        const Duration(
+                                                            seconds: 1),
+                                                            () {
+                                                          UiHelper.showSuccessMsg(
+                                                              context,
+                                                              "event_added_success"
                                                                   .tr);
-                                                        }
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              7),
-                                                      decoration: BoxDecoration(
-                                                        color: white,
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                .all(
-                                                          Radius.circular(7),
-                                                        ),
-                                                      ),
-                                                      child: SvgPicture.asset(
-                                                          ImageConstant
-                                                              .add_event,
-                                                          height: 18,
-                                                          colorFilter: ColorFilter
-                                                              .mode(
-                                                                  Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .onPrimary,
-                                                                  BlendMode
-                                                                      .srcIn)),
-                                                      // child: const Icon(
-                                                      //   Icons.add,
-                                                      //   color: Colors.black,
-                                                      // ),
-                                                    ),
+                                                        });
+                                                  } else {
+                                                    print(
+                                                        'event_added_failed'
+                                                            .tr);
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                padding:
+                                                const EdgeInsets.all(
+                                                    7),
+                                                decoration: BoxDecoration(
+                                                  color: white,
+                                                  borderRadius:
+                                                  const BorderRadius
+                                                      .all(
+                                                    Radius.circular(7),
                                                   ),
-                                                )
+                                                ),
+                                                child: SvgPicture.asset(
+                                                    ImageConstant
+                                                        .add_event,
+                                                    height: 18,
+                                                    colorFilter: ColorFilter
+                                                        .mode(
+                                                        Theme.of(
+                                                            context)
+                                                            .colorScheme
+                                                            .onPrimary,
+                                                        BlendMode
+                                                            .srcIn)),
+                                                // child: const Icon(
+                                                //   Icons.add,
+                                                //   color: Colors.black,
+                                                // ),
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       )
                                     ],
@@ -270,89 +273,61 @@ class PreEventWidget extends GetView<HomeController> {
                             Expanded(
                               flex: 1,
                               child: AspectRatio(
-                                aspectRatio: 169 / 156,
+                                aspectRatio: 1 / 1,
                                 child: Container(
                                   height: context.height,
                                   decoration: AppDecoration.fillGray.copyWith(
                                     borderRadius:
-                                        BorderRadiusStyle.roundedBorder10,
+                                    BorderRadiusStyle.roundedBorder10,
                                   ),
                                   width: context.width,
                                   child: Center(
                                       child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          // Stack(
-                                          //   alignment: Alignment.center,
-                                          //   children: [
-                                          //     toolbarWidget(
-                                          //         ImageConstant.svg_chat,
-                                          //         0,
-                                          //         context),
-                                          //     Obx(() => _dashboardController
-                                          //                 .chatCount.value !=
-                                          //             0
-                                          //         ? Positioned(
-                                          //             left: 30,
-                                          //             top: 1,
-                                          //             child: Container(
-                                          //               padding:
-                                          //                   const EdgeInsets
-                                          //                       .all(2),
-                                          //               decoration:
-                                          //                   BoxDecoration(
-                                          //                 color: accentColor,
-                                          //                 borderRadius:
-                                          //                     BorderRadius
-                                          //                         .circular(6),
-                                          //               ),
-                                          //               constraints:
-                                          //                   const BoxConstraints(
-                                          //                 minWidth: 8,
-                                          //                 minHeight: 8,
-                                          //               ),
-                                          //               child: const SizedBox(),
-                                          //             ),
-                                          //           )
-                                          //         : Container())
-                                          //   ],
-                                          // ),
-                                          toolbarWidget(ImageConstant.svg_info,
-                                              2, context),
-                                          SizedBox(
-                                            width: 14.v,
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  toolbarWidget(
+                                                      ImageConstant.myProfileIcon,
+                                                      0,
+                                                      context),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                width: 14.v,
+                                              ),
+                                              toolbarWidget(ImageConstant.svg_alert,
+                                                  1, context)
+                                            ],
                                           ),
-                                          toolbarWidget(ImageConstant.svg_alert,
-                                              1, context)
+                                          SizedBox(
+                                            height: 14.v,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              toolbarWidget(ImageConstant.svg_info,
+                                                  2, context),
+                                              SizedBox(
+                                                width: 14.v,
+                                              ),
+                                              //ic_badge
+                                              toolbarWidget(
+                                                  ImageConstant.menu_feedback,
+                                                  3,
+                                                  context)
+                                            ],
+                                          )
                                         ],
-                                      ),
-                                      // SizedBox(
-                                      //   height: 14.v,
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment:
-                                      //       MainAxisAlignment.center,
-                                      //   mainAxisSize: MainAxisSize.min,
-                                      //   children: [
-                                      //     toolbarWidget(ImageConstant.svg_info,
-                                      //         2, context),
-                                      //     SizedBox(
-                                      //       width: 14.v,
-                                      //     ),
-                                      //     //ic_badge
-                                      //     toolbarWidget(
-                                      //         ImageConstant.svg_search,
-                                      //         3,
-                                      //         context)
-                                      //   ],
-                                      // )
-                                    ],
-                                  )),
+                                      )),
                                 ),
                               ),
                             )
@@ -368,7 +343,7 @@ class PreEventWidget extends GetView<HomeController> {
                             side: BorderSide(color: colorPrimary, width: 1),
                             shape: const RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(43)),
+                              BorderRadius.all(Radius.circular(43)),
                             ),
                           ),
                           buttonTextStyle: TextStyle(
@@ -381,7 +356,7 @@ class PreEventWidget extends GetView<HomeController> {
                             _isButtonDisabled = true;
                             Future.delayed(const Duration(seconds: 4), () {
                               _isButtonDisabled =
-                                  false; // Re-enable the button after the screen is closed
+                              false; // Re-enable the button after the screen is closed
                             });
                             controller.getHtmlPage(
                                 "myAgenda".tr, "agenda", false);
@@ -406,7 +381,9 @@ class PreEventWidget extends GetView<HomeController> {
       child: Stack(
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(8),
+            height: 42.v,
+            width: 42.h,
             decoration: BoxDecoration(
               color: white,
               borderRadius: BorderRadius.circular(30),
@@ -420,8 +397,8 @@ class PreEventWidget extends GetView<HomeController> {
                             Get.context!, authenticationManager);
                         return;
                       }
-                      _dashboardController.chatTabIndex(0);
-                      Get.toNamed(ChatDashboardPage.routeName);
+                      _dashboardController.changeTabIndex(4);
+                      // Get.toNamed(ChatDashboardPage.routeName);
                       break;
                     case 1:
                       _dashboardController.openAlertPage();
@@ -430,7 +407,9 @@ class PreEventWidget extends GetView<HomeController> {
                       Get.toNamed(InfoFaqDashboard.routeName);
                       break;
                     case 3:
-                      Get.toNamed(GlobalSearchPage.routeName);
+                      Get.toNamed(FeedbackPage.routeName, arguments: {
+                        MyConstant.titleKey: "Feedback"
+                      });
                       break;
                   }
                 },
@@ -442,22 +421,22 @@ class PreEventWidget extends GetView<HomeController> {
                 )),
           ),
           index == 1 &&
-                  (_dashboardController.personalCount.value > 0 ||
-                      authenticationManager.showBadge.value)
+              (_dashboardController.personalCount.value > 0 ||
+                  authenticationManager.showBadge.value)
               ? Positioned(
-                  right: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      color: accentColor,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    constraints: const BoxConstraints(
-                      minWidth: 10,
-                      minHeight: 10,
-                    ),
-                    child: const SizedBox(),
-                  ))
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: accentColor,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                constraints: const BoxConstraints(
+                  minWidth: 10,
+                  minHeight: 10,
+                ),
+                child: const SizedBox(),
+              ))
               : const SizedBox()
         ],
       ),

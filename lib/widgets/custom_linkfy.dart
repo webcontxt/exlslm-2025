@@ -1,4 +1,5 @@
 import 'package:dreamcast/core/extension/content_extension.dart';
+import 'package:dreamcast/theme/app_colors.dart';
 import 'package:dreamcast/widgets/textview/customTextView.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -89,9 +90,9 @@ class _ReadMoreLinkifyState extends State<ReadMoreLinkify> {
             useMouseRegion: widget.useMouseRegion,
             linkStyle: (widget.style ?? Theme.of(context).textTheme.bodyMedium)
                 ?.copyWith(
-                  color: Colors.blueAccent,
-                  decoration: TextDecoration.underline,
-                )
+              color: Colors.blueAccent,
+              decoration: TextDecoration.underline,
+            )
                 .merge(widget.linkStyle),
           ),
           textAlign: widget.textAlign,
@@ -108,15 +109,15 @@ class _ReadMoreLinkifyState extends State<ReadMoreLinkify> {
         ),
         moreThenLines == true
             ? GestureDetector(
-                onTap: toggleReadMore,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 0.0),
-                  child: CustomTextView(text:
-                    isExpanded ? 'Read Less' : 'Read More',
-                    fontWeight: FontWeight.w500,color: Colors.blueAccent,fontSize: 15,
-                  ),
-                ),
-              )
+          onTap: toggleReadMore,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 0.0),
+            child: CustomTextView(text:
+            isExpanded ? 'Read Less' : 'Read More',
+              fontWeight: FontWeight.w500,color: primary, fontSize: 15,
+            ),
+          ),
+        )
             : const SizedBox(),
       ],
     );
@@ -138,12 +139,12 @@ class _ReadMoreLinkifyState extends State<ReadMoreLinkify> {
 
 /// Helper function to build the TextSpan with link elements
 TextSpan buildTextSpan(
-  List<LinkifyElement> elements, {
-  TextStyle? style,
-  TextStyle? linkStyle,
-  LinkCallback? onOpen,
-  bool useMouseRegion = false,
-}) {
+    List<LinkifyElement> elements, {
+      TextStyle? style,
+      TextStyle? linkStyle,
+      LinkCallback? onOpen,
+      bool useMouseRegion = false,
+    }) {
   return TextSpan(
     children: elements.map((element) {
       if (element is LinkableElement) {

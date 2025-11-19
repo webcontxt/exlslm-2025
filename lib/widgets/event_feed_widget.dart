@@ -333,7 +333,11 @@ class EventFeedChildWidget extends GetView<EventFeedController> {
                         controller.feedDataList[controller.lastIndexPlay]
                             .isPlayVideo = false;
                         controller.feedDataList.refresh();
-                        getCommentListBottomSheet(context, posts, index, false);
+                        getCommentListBottomSheet(context,
+                            posts,
+                            index,
+                            false,
+                            posts.comment?.total.toString());
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(top: 9, bottom: 3),
@@ -417,7 +421,11 @@ class EventFeedChildWidget extends GetView<EventFeedController> {
                       controller.feedDataList[controller.lastIndexPlay]
                           .isPlayVideo = false;
                       controller.feedDataList.refresh();
-                      getCommentListBottomSheet(context, posts, index, true);
+                      getCommentListBottomSheet(context,
+                          posts,
+                          index,
+                          true,
+                          posts.comment?.total.toString());
                     },
                     child: Container(
                       color: Colors.transparent,
@@ -625,7 +633,7 @@ class EventFeedChildWidget extends GetView<EventFeedController> {
 
   ///********* Get Comment List Bottom Sheet ***********///
   getCommentListBottomSheet(
-      BuildContext context, Posts posts, int postIndex, bool isFocused) {
+      BuildContext context, Posts posts, int postIndex, bool isFocused, String? totalComments) {
     try {
       if (isFocused == true) {
         focusNode.requestFocus();
@@ -674,7 +682,7 @@ class EventFeedChildWidget extends GetView<EventFeedController> {
                               children: [
                                 CustomTextView(
                                   text:
-                                      "Total ${controller.feedCmtList.length} Comments",
+                                      "Total ${totalComments ?? controller.feedCmtList.length} Comments",
                                   fontSize: 22,
                                   fontWeight: FontWeight.w600,
                                   color: colorSecondary,

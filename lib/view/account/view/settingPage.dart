@@ -76,14 +76,14 @@ class SettingPage extends GetView<SettingController> {
                           //   }
                           //   Get.toNamed(PrivacyPreference.routeName);
                           //   break;
-                          case "time_zone":
-                            if (!authenticationManager.isLogin()) {
-                              DialogConstantHelper.showLoginDialog(
-                                  Get.context!, authenticationManager);
-                              return;
-                            }
-                            Get.to(() => TimezonePage());
-                            break;
+                          // case "time_zone":
+                          //   if (!authenticationManager.isLogin()) {
+                          //     DialogConstantHelper.showLoginDialog(
+                          //         Get.context!, authenticationManager);
+                          //     return;
+                          //   }
+                          //   Get.to(() => TimezonePage());
+                          //   break;
                           case "mute_notification":
                             if (!authenticationManager.isLogin()) {
                               DialogConstantHelper.showLoginDialog(

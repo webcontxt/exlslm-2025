@@ -88,6 +88,7 @@ class DashboardPage extends StatelessWidget {
                 scrolledUnderElevation: 0,
                 elevation: 0,
                 toolbarHeight: (controller.dashboardTabIndex == 0 ||
+                    controller.dashboardTabIndex == 1 ||
                         controller.dashboardTabIndex == 4)
                     ? 0
                     : 60,

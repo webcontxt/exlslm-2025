@@ -255,6 +255,7 @@ class ImageConstant {
   static String ic_resource_center = "assets/svg/ic_resource_center.svg";
   static String menu_info = "assets/svg/menu_info.svg";
   static String svg_profile = "assets/svg/svg_profile.svg";
+  static String myProfileIcon = "assets/svg/my-profile.svg";
   static String profileIcon = "assets/icons/ic_profile.png";
 
   static String ic_polls = "assets/svg/ic_polls.svg";

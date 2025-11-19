@@ -19,6 +19,7 @@ import '../../view/dashboard/dashboard_controller.dart';
 import '../../view/globalSearch/page/global_search_page.dart';
 import '../../view/guide/view/info_faq_dashboard.dart';
 import '../../view/home/model/config_detail_model.dart';
+import '../../view/quiz/view/feedback_page.dart';
 import '../../view/schedule/view/today_session_page.dart';
 import '../button/custom_outlined_button.dart';
 import '../textview/customTextView.dart';
@@ -88,51 +89,22 @@ class LiveEventWidget extends GetView<HomeController> {
                                 width: context.width,
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
-                                    // Stack(
-                                    //   alignment: Alignment.center,
-                                    //   children: [
-                                    //     toolbarWidget(
-                                    //         ImageConstant.svg_chat, 0, context),
-                                    //     Obx(() => _dashboardController
-                                    //                 .chatCount.value !=
-                                    //             0
-                                    //         ? Positioned(
-                                    //             left: 30,
-                                    //             top: 1,
-                                    //             child: Container(
-                                    //               padding:
-                                    //                   const EdgeInsets.all(2),
-                                    //               decoration: BoxDecoration(
-                                    //                 color: accentColor,
-                                    //                 borderRadius:
-                                    //                     BorderRadius.circular(
-                                    //                         6),
-                                    //               ),
-                                    //               constraints:
-                                    //                   const BoxConstraints(
-                                    //                 minWidth: 8,
-                                    //                 minHeight: 8,
-                                    //               ),
-                                    //               child: const SizedBox(),
-                                    //             ),
-                                    //           )
-                                    //         : Container())
-                                    //   ],
-                                    // ),
-                                    toolbarWidget(ImageConstant.svg_info,
-                                        2, context),
-                                    SizedBox(
-                                      width: 14.v,
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        toolbarWidget(
+                                            ImageConstant.myProfileIcon, 0, context),
+                                      ],
                                     ),
-                                    toolbarWidget(ImageConstant.svg_alert,
-                                        1, context)
-                                    // toolbarWidget(
-                                    //     ImageConstant.svg_info, 2, context),
-                                    // //ic_badge
-                                    // toolbarWidget(
-                                    //     ImageConstant.svg_search, 3, context)
+                                    toolbarWidget(
+                                        ImageConstant.svg_alert, 1, context),
+                                    toolbarWidget(
+                                        ImageConstant.svg_info, 2, context),
+                                    //ic_badge
+                                    toolbarWidget(
+                                        ImageConstant.menu_feedback, 3, context)
                                   ],
                                 ),
                               ),
@@ -144,7 +116,7 @@ class LiveEventWidget extends GetView<HomeController> {
                                 buttonStyle: OutlinedButton.styleFrom(
                                   backgroundColor: white,
                                   side:
-                                      BorderSide(color: colorPrimary, width: 1),
+                                  BorderSide(color: colorPrimary, width: 1),
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(30))),
@@ -158,10 +130,10 @@ class LiveEventWidget extends GetView<HomeController> {
                                     return; // Prevent further clicks
                                   _isButtonDisabled = true;
                                   Future.delayed(const Duration(seconds: 4),
-                                      () {
-                                    _isButtonDisabled =
+                                          () {
+                                        _isButtonDisabled =
                                         false; // Re-enable the button after the screen is closed
-                                  });
+                                      });
                                   controller.getHtmlPage(
                                       "myAgenda".tr, "agenda", false);
                                 },
@@ -215,7 +187,9 @@ class LiveEventWidget extends GetView<HomeController> {
     return Stack(
       children: [
         Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(8),
+          height: 42.v,
+          width: 42.h,
           decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(30),
@@ -229,8 +203,8 @@ class LiveEventWidget extends GetView<HomeController> {
                           Get.context!, authenticationManager);
                       return;
                     }
-                    _dashboardController.chatTabIndex(0);
-                    Get.toNamed(ChatDashboardPage.routeName);
+                    _dashboardController.changeTabIndex(4);
+                    // Get.toNamed(ChatDashboardPage.routeName);
                     break;
                   case 1:
                     _dashboardController.openAlertPage();
@@ -239,7 +213,9 @@ class LiveEventWidget extends GetView<HomeController> {
                     Get.toNamed(InfoFaqDashboard.routeName);
                     break;
                   case 3:
-                    Get.toNamed(GlobalSearchPage.routeName);
+                    Get.toNamed(FeedbackPage.routeName, arguments: {
+                      MyConstant.titleKey: "Feedback"
+                    });
                     break;
                 }
               },
@@ -250,22 +226,22 @@ class LiveEventWidget extends GetView<HomeController> {
                       BlendMode.srcIn))),
         ),
         index == 1 &&
-                (_dashboardController.personalCount.value > 0 ||
-                    authenticationManager.showBadge.value)
+            (_dashboardController.personalCount.value > 0 ||
+                authenticationManager.showBadge.value)
             ? Positioned(
-                right: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    color: accentColor,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  constraints: const BoxConstraints(
-                    minWidth: 10,
-                    minHeight: 10,
-                  ),
-                  child: const SizedBox(),
-                ))
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                color: accentColor,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              constraints: const BoxConstraints(
+                minWidth: 10,
+                minHeight: 10,
+              ),
+              child: const SizedBox(),
+            ))
             : const SizedBox()
       ],
     );

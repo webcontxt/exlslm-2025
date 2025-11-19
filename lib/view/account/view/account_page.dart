@@ -225,7 +225,7 @@ class AccountPage extends GetView<AccountController> {
                                                 child: appVersionWidget(),
                                               ),
                                               SizedBox(
-                                                height: 100.v,
+                                                height: 170.v,
                                               ),
                                             ],
                                           ),

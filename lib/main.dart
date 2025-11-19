@@ -162,8 +162,7 @@ class MyApp extends StatelessWidget {
                   data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                   child: GestureDetector(
                     onTap: () {
-                      FocusManager.instance.primaryFocus
-                          ?.unfocus(); // Dismiss keyboard
+                      FocusManager.instance.primaryFocus?.unfocus(); // Dismiss keyboard
                     },
                     child: child!,
                   ),

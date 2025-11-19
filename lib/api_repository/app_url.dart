@@ -7,7 +7,7 @@ class AppUrl {
 
   ///firebase database url dynamic updater from splash controller
   static String setDataBaseUrl = "https://dreamcast-event-app-8th-default-rtdb.firebaseio.com";
-  static String setDefaultFirebaseNode = "eappcarrieryatra25prod";
+  static String setDefaultFirebaseNode = "eappexlslm25prod";
   static String setTopicName = "EVENTAPP_DREAMCAST_2024";
 
   static String get dataBaseUrl => setDataBaseUrl;
@@ -16,10 +16,10 @@ class AppUrl {
 
   /// ************** dynamic base url updated from the auth manager ************///
 
-   // static String baseURLV1 = '/api/v1/mwapp';
+   static String baseURLV1 = 'https://eappsapi.vehub.live/exlslm_25/api/v1/mwapp';
 
   /// staging url
-  static String baseURLV1 = 'https://live.dreamcast.in/exlslm_25/api/v1/mwapp';
+  // static String baseURLV1 = 'https://live.dreamcast.in/exlslm_25/api/v1/mwapp';
 
 
   /// Tt is is used for the load the splash url
@@ -285,6 +285,7 @@ class AppUrl {
   static String get feedbackStatus => '$baseURLV1/iframe/checkFeedbackStatus';
 
   static String get feedGetList => '$baseURLV1/feeds/get';
+  static String get feedsGetFilters => '$baseURLV1/feeds/getFilters';
 
   static String get feedCreate => '$baseURLV1/feeds/create';
 

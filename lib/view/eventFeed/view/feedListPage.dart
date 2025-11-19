@@ -4,6 +4,7 @@ import 'package:dreamcast/widgets/loading.dart';
 import 'package:dreamcast/view/eventFeed/controller/eventFeedController.dart';
 import 'package:dreamcast/view/eventFeed/view/upload_post_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../routes/my_constant.dart';
@@ -30,77 +31,176 @@ class SocialFeedListPage extends GetView<EventFeedController> {
   int currentSec = 5;
   var isFromLaunchpad = false;
 
+  var showPopup = false.obs;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      // appBar: CustomAppBar(
-      //   height: 72.v,
-      //   leadingWidth: 45.h,
-      //   leading: AppbarLeadingImage(
-      //     imagePath: ImageConstant.imgArrowLeft,
-      //     margin: EdgeInsets.only(
-      //       left: 7.h,
-      //       top: 3,
-      //       // bottom: 12.v,
-      //     ),
-      //     onTap: () {
-      //       Get.back();
-      //     },
-      //   ),
-      //   title: ToolbarTitle(
-      //       title: Get.arguments?[MyConstant.titleKey] ?? "event_feed".tr),
-      //   backgroundColor: white,
-      //   // dividerHeight: 0,
-      // ),
-      body: SizedBox(
-        height: context.height,
-        width: context.width,
-        child: GetX<EventFeedController>(
-          builder: (controller) {
-            return Column(
-              children: [
-                buildHeader(),
-                Expanded(
-                  child: Stack(
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          appBar: CustomAppBar(
+            height: 72.v,
+            leadingWidth: 45.h,
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: 16.v),
+                child: GestureDetector(
+                  onTap: () {
+                    showPopup(!showPopup.value);
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colorGray, width: 1),
+                      color: showPopup.value ? white : Colors.transparent,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/svg/ic_sort.svg",
+                          width: 11,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Obx(() {
+                          return CustomTextView(
+                            text: controller.sortList[controller.sortValue.value].text ?? "",
+                            color: colorSecondary,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14.fSize,
+                          );
+                        })
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+            title: Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: ToolbarTitle(
+                  title: Get.arguments?[MyConstant.titleKey] ?? "Image wall"),
+            ),
+            backgroundColor: white,
+            // dividerHeight: 0,
+          ),
+          body: SizedBox(
+            height: context.height,
+            width: context.width,
+            child: GetX<EventFeedController>(
+              builder: (controller) {
+                return Column(
+                  children: [
+                    buildHeader(),
+                    Expanded(
+                      child: Stack(
                         children: [
-                          Expanded(
-                            child: RefreshIndicator(
-                              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                              backgroundColor: colorSecondary,
-                              key: _refreshIndicatorKey,
-                              onRefresh: () {
-                                return Future.delayed(
-                                  const Duration(seconds: 1),
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: RefreshIndicator(
+                                  triggerMode:
+                                      RefreshIndicatorTriggerMode.anywhere,
+                                  color: colorLightGray,
+                                  backgroundColor: colorPrimary,
+                                  strokeWidth: 1.0,
+                                  key: _refreshIndicatorKey,
+                                  onRefresh: () {
+                                    return Future.delayed(
+                                      const Duration(seconds: 1),
                                       () async {
-                                    controller.getEventFeed(isLimited: false);
+                                        controller.getEventFeed(
+                                            isLimited: false);
+                                      },
+                                    );
                                   },
-                                );
-                              },
-                              child: EventFeedWidgetDynamic(
-                                isFromLaunchpad: isFromLaunchpad,
+                                  child: EventFeedWidgetDynamic(
+                                    isFromLaunchpad: isFromLaunchpad,
+                                  ),
+                                ),
                               ),
-                            ),
+                              // when the _loadMore function is running
+                              controller.isLoadMoreRunning.value
+                                  ? const LoadMoreLoading()
+                                  : const SizedBox()
+                            ],
                           ),
-                          // when the _loadMore function is running
-                          controller.isLoadMoreRunning.value
-                              ? const LoadMoreLoading()
-                              : const SizedBox()
+                          _progressEmptyWidget()
                         ],
                       ),
-                      _progressEmptyWidget()
-                    ],
-                  ),
-                )
-              ],
-            );
-          },
+                    )
+                  ],
+                );
+              },
+            ),
+          ),
+          resizeToAvoidBottomInset: true,
         ),
-      ),
-      resizeToAvoidBottomInset: true,
+        Obx(() {
+          return showPopup.value
+              ? Positioned(
+                  width: 172.adaptSize,
+                  top: 55.adaptSize,
+                  right: 10,
+                  child: buildAlertPopup(context),
+                )
+              : const SizedBox();
+        }),
+      ],
+    );
+  }
+
+  Widget buildAlertPopup(BuildContext context) {
+    return SizedBox(
+      width: 132.adaptSize,
+      child: Card(
+          color: white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            side: BorderSide(color: colorGray, width: 1),
+          ),
+          elevation: 6,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(
+                controller.sortList.length,
+                (index) {
+                  return InkWell(
+                    onTap: () {
+                      controller.sortValue.value = index;
+                      showPopup(false);
+                      controller.getEventFeed(isLimited: false);
+                    },
+                    child: Container(
+                      width: double.maxFinite,
+                      padding: const EdgeInsets.symmetric(vertical: 2.0),
+                      child: CustomTextView(
+                        text: controller.sortList[index].text ?? "",
+                        fontWeight: FontWeight.w600,
+                        color: controller.sortValue.value == index
+                            ? colorSecondary
+                            : colorGray,
+                        fontSize: 14,
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          )),
     );
   }
 
@@ -191,7 +291,7 @@ class SocialFeedListPage extends GetView<EventFeedController> {
         : Container(
             height: 45,
             width: 45,
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: colorSecondary,
             ),

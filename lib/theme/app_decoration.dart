@@ -39,6 +39,12 @@ class AppDecoration {
   static BoxDecoration get aiRoundedBoxDecoration => BoxDecoration(
       shape: BoxShape.circle,
       color: colorSecondary,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          blurRadius: 10.0,
+        ),
+      ],
       gradient: LinearGradient(
         colors: PrefUtils.getAiFeatures()
             ? [gradientBegin, gradientEnd]

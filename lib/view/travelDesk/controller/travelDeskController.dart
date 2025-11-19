@@ -52,7 +52,7 @@ class TravelDeskController extends GetxController {
     tabList.add("Flight Details");
     // tabList.add("Cab Details");
     // tabList.add("Hotel Details");
-    tabList.add("Visa Details");
+    // tabList.add("Visa Details");
     // tabList.add("Passport");
   }
 

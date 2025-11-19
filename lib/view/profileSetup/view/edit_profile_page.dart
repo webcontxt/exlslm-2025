@@ -67,93 +67,93 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: CustomAppBar(
-        height: 72.v,
-        leadingWidth: 45.h,
-        leading: AppbarLeadingImage(
-          imagePath: ImageConstant.imgArrowLeft,
-          margin: EdgeInsets.only(
-            left: 7.h,
-            top: 3,
-            // bottom: 12.v,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: CustomAppBar(
+          height: 72.v,
+          leadingWidth: 45.h,
+          leading: AppbarLeadingImage(
+            imagePath: ImageConstant.imgArrowLeft,
+            margin: EdgeInsets.only(
+              left: 7.h,
+              top: 3,
+              // bottom: 12.v,
+            ),
+            onTap: () {
+              Get.back();
+            },
           ),
-          onTap: () {
-            Get.back();
-          },
+          title: ToolbarTitle(title: "edit_profile".tr),
         ),
-        title: ToolbarTitle(title: "edit_profile".tr),
-      ),
-      body: SafeArea(
-        child: GetX<EditProfileController>(
-          builder: (controller) {
-            return Skeletonizer(
-              enabled: controller.isFirstLoading.value,
-              child: Stack(children: [
-                Padding(
-                    padding: const EdgeInsets.only(bottom: 60.0),
-                    child: Form(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        key: socialFormKey,
-                        child: SingleChildScrollView(
-                          controller: _scrollController,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, left: 16, right: 16),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                singProfileImage(),
-                                profileInitial(context),
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                infoProfileWidget(context),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                bioProfileWidget(context),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                socialProfileWidget(),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                              ],
+        bottomSheet: Padding(
+          padding: EdgeInsets.all(16.adaptSize),
+          child: CommonMaterialButton(
+            color: colorPrimary,
+            text: "saveChange".tr,
+            onPressed: () {
+              if (socialFormKey.currentState?.validate() ?? false) {
+                FocusManager.instance.primaryFocus?.unfocus();
+                if (controller.profileImage.value.path.isNotEmpty) {
+                  controller.updatePicture();
+                }
+                controller.updateProfile(context,
+                    isPublish: false, isLater: false);
+              }
+            },
+          ),
+        ),
+        body: SafeArea(
+          child: GetX<EditProfileController>(
+            builder: (controller) {
+              return Skeletonizer(
+                enabled: controller.isFirstLoading.value,
+                child: Stack(children: [
+                  Padding(
+                      padding: const EdgeInsets.only(bottom: 60.0),
+                      child: Form(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          key: socialFormKey,
+                          child: SingleChildScrollView(
+                            controller: _scrollController,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 20, left: 16, right: 16),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  singProfileImage(),
+                                  profileInitial(context),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  infoProfileWidget(context),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  bioProfileWidget(context),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  socialProfileWidget(),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ))),
-                Positioned(
-                  bottom: 10,
-                  left: 16,
-                  right: 16,
-                  child: CommonMaterialButton(
-                    color: colorPrimary,
-                    text: "saveChange".tr,
-                    onPressed: () {
-                      if (socialFormKey.currentState?.validate() ?? false) {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        if (controller.profileImage.value.path.isNotEmpty) {
-                          controller.updatePicture();
-                        }
-                        controller.updateProfile(context,
-                            isPublish: false, isLater: false);
-                      }
-                    },
-                  ),
-                ),
-                controller.isLoading.value ||
-                        controller.linkedInSetupController.isLoading.value
-                    ? const Loading()
-                    : const SizedBox()
-              ]),
-            );
-          },
+                          ))),
+                  controller.isLoading.value ||
+                          controller.linkedInSetupController.isLoading.value
+                      ? const Loading()
+                      : const SizedBox()
+                ]),
+              );
+            },
+          ),
         ),
+        resizeToAvoidBottomInset: true,
       ),
-      resizeToAvoidBottomInset: true,
     );
   }
 

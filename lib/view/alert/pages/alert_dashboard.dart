@@ -45,96 +45,97 @@ class AlertDashboard extends GetView<AlertController> {
         ),
         title: ToolbarTitle(title: "notification".tr),
       ),
-      body: GetX<DashboardController>(
-        builder: (dashboardController) {
-          return DefaultTabController(
-            initialIndex: controller.tabIndex.value,
-            length: tabList.length,
-            child: Scaffold(
-              appBar: TabBar(
-                dividerColor: colorLightGray,
-                isScrollable: false,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorColor: colorPrimary,
-                labelStyle: tabBarTheme.labelStyle?.copyWith(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: colorPrimary,
-                ),
-                unselectedLabelStyle:
-                    tabBarTheme.unselectedLabelStyle?.copyWith(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: colorGray,
-                ),
-                onTap: (index) {
-                  controller.tabController.index = index;
-                  controller.tabIndex(index);
-                  controller.reverseTheList(index);
-                },
-                tabs: <Widget>[
-                  ...List.generate(
-                    tabList.length,
-                    (index) => Tab(
-                        height: 52,
-                        child: Stack(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 20.0, top: 0, left: 20),
-                              child: CustomTextView(
-                                text: tabList[index],
-                                fontSize: 21,
-                                color: controller.tabIndex.value == index
-                                    ? colorPrimary
-                                    : colorGray,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            dashboardController.personalCount.value > 0 &&
-                                    index == 1
-                                ? Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: Container(
-                                        padding: const EdgeInsets.all(2),
-                                        decoration: BoxDecoration(
-                                          color: lightGray,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        constraints: const BoxConstraints(
-                                          minWidth: 16,
-                                          minHeight: 16,
-                                        ),
-                                        child: Text(
-                                          dashboardController
-                                              .personalCount.value
-                                              .toString(),
-                                          style: TextStyle(
-                                            color: colorSecondary,
-                                            fontSize: 10,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        )),
-                                  )
-                                : const SizedBox.shrink()
-                          ],
-                        )),
-                  ),
-                ],
-              ),
-              body: TabBarView(
-                controller: controller.tabController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  AlertGeneralPage(),
-                  AlertPersonalPage(),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+      body: AlertGeneralPage(),
+      // body: GetX<DashboardController>(
+      //   builder: (dashboardController) {
+      //     return DefaultTabController(
+      //       initialIndex: controller.tabIndex.value,
+      //       length: tabList.length,
+      //       child: Scaffold(
+      //         appBar: TabBar(
+      //           dividerColor: colorLightGray,
+      //           isScrollable: false,
+      //           indicatorSize: TabBarIndicatorSize.tab,
+      //           indicatorColor: colorPrimary,
+      //           labelStyle: tabBarTheme.labelStyle?.copyWith(
+      //             fontSize: 20,
+      //             fontWeight: FontWeight.w500,
+      //             color: colorPrimary,
+      //           ),
+      //           unselectedLabelStyle:
+      //               tabBarTheme.unselectedLabelStyle?.copyWith(
+      //             fontSize: 20,
+      //             fontWeight: FontWeight.w500,
+      //             color: colorGray,
+      //           ),
+      //           onTap: (index) {
+      //             controller.tabController.index = index;
+      //             controller.tabIndex(index);
+      //             controller.reverseTheList(index);
+      //           },
+      //           tabs: <Widget>[
+      //             ...List.generate(
+      //               tabList.length,
+      //               (index) => Tab(
+      //                   height: 52,
+      //                   child: Stack(
+      //                     children: <Widget>[
+      //                       Padding(
+      //                         padding: const EdgeInsets.only(
+      //                             right: 20.0, top: 0, left: 20),
+      //                         child: CustomTextView(
+      //                           text: tabList[index],
+      //                           fontSize: 21,
+      //                           color: controller.tabIndex.value == index
+      //                               ? colorPrimary
+      //                               : colorGray,
+      //                           fontWeight: FontWeight.w500,
+      //                         ),
+      //                       ),
+      //                       dashboardController.personalCount.value > 0 &&
+      //                               index == 1
+      //                           ? Positioned(
+      //                               right: 0,
+      //                               top: 0,
+      //                               child: Container(
+      //                                   padding: const EdgeInsets.all(2),
+      //                                   decoration: BoxDecoration(
+      //                                     color: lightGray,
+      //                                     shape: BoxShape.circle,
+      //                                   ),
+      //                                   constraints: const BoxConstraints(
+      //                                     minWidth: 16,
+      //                                     minHeight: 16,
+      //                                   ),
+      //                                   child: Text(
+      //                                     dashboardController
+      //                                         .personalCount.value
+      //                                         .toString(),
+      //                                     style: TextStyle(
+      //                                       color: colorSecondary,
+      //                                       fontSize: 10,
+      //                                     ),
+      //                                     textAlign: TextAlign.center,
+      //                                   )),
+      //                             )
+      //                           : const SizedBox.shrink()
+      //                     ],
+      //                   )),
+      //             ),
+      //           ],
+      //         ),
+      //         body: TabBarView(
+      //           controller: controller.tabController,
+      //           physics: const NeverScrollableScrollPhysics(),
+      //           children: [
+      //             AlertGeneralPage(),
+      //             AlertPersonalPage(),
+      //           ],
+      //         ),
+      //       ),
+      //     );
+      //   },
+      // ),
     );
   }
 }

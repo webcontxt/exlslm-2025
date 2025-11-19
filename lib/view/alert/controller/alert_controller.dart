@@ -10,9 +10,7 @@ import '../../dashboard/dashboard_controller.dart';
 
 class AlertController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  late final AuthenticationManager _authManager;
-
-  AuthenticationManager get authManager => _authManager;
+  final AuthenticationManager authManager = Get.find();
 
   final DashboardController dashboardController = Get.find();
 
@@ -39,10 +37,9 @@ class AlertController extends GetxController
     if (Get.arguments != null) {
       tabIndex.value = Get.arguments["tabIndex"] ?? 0;
     }
-    _authManager = Get.find();
     _tabController = TabController(vsync: this, length: 2);
     _tabController.index = tabIndex.value;
-    initNotificationRef();
+   initNotificationRef();
   }
 
   /// Initializes notification references and listeners for personal and broadcast notifications.

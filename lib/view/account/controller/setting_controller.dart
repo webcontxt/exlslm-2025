@@ -33,12 +33,12 @@ class SettingController extends GetxController {
       //     color: colorSecondary,
       //     slug: "privacy_preference",
       //     leading: ImageConstant.privacy_prefrence),
-      MenuItem.createItem(
-          title: "time_zone".tr,
-          isTrailing: true,
-          color: colorSecondary,
-          slug: "time_zone",
-          leading: ImageConstant.timezone),
+      // MenuItem.createItem(
+      //     title: "time_zone".tr,
+      //     isTrailing: true,
+      //     color: colorSecondary,
+      //     slug: "time_zone",
+      //     leading: ImageConstant.timezone),
       MenuItem.createItem(
           title: "mute_notification".tr,
           isTrailing: true,

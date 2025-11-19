@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:chewie/chewie.dart';
 import 'package:dreamcast/model/common_model.dart';
+import 'package:dreamcast/routes/my_constant.dart';
 import 'package:dreamcast/utils/image_constant.dart';
 import 'package:dreamcast/view/eventFeed/model/commentModel.dart';
 import 'package:dreamcast/view/eventFeed/model/feedDataModel.dart';
@@ -18,10 +19,10 @@ import '../../../api_repository/api_service.dart';
 import '../../../api_repository/app_url.dart';
 import '../../../theme/ui_helper.dart';
 import '../../../utils/thumbnail_helper.dart';
-import '../../../widgets/dialog/custom_animated_dialog_widget.dart';
 import '../../beforeLogin/globalController/authentication_manager.dart';
 import '../model/createCommentModel.dart';
 import '../model/createPostModel.dart';
+import '../model/feedFilterModel.dart';
 import '../model/feedLikeModel.dart';
 import '../model/postLikeModel.dart';
 import '../view/LikeListPage.dart';
@@ -103,6 +104,11 @@ class EventFeedController extends GetxController {
 
   var lastIndexPlay = 0;
 
+  var sortValue = 0.obs;
+  var sortList = <Options>[];
+  var feedFilterData = FilterType().obs;
+  var filterLoading = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -120,12 +126,38 @@ class EventFeedController extends GetxController {
         .add(LikeOption(url: ImageConstant.emoji_like_1, likeType: "haha"));
     likeOptionList
         .add(LikeOption(url: ImageConstant.emoji_like_3, likeType: "wow"));
+
+    // sortList.add(Options(text: "Recent Posts", value: "public"));
+    // sortList.add(Options(text: "My Posts", value: "me"));
+    // sortList.add(Options(text: "Most Popular", value: "trending"));
+    getFeedFilter();
   }
 
   @override
   void onClose() {
     focusNode.dispose();
     super.onClose();
+  }
+
+
+
+  Future<void> getFeedFilter() async {
+    try{
+      filterLoading(true);
+      final model = FeedFilterModel.fromJson(json.decode(
+        await apiService.dynamicGetRequest(url: AppUrl.feedsGetFilters),
+      ));
+      filterLoading(false);
+      if (model.code == 200 && (model.status ?? false)) {
+        feedFilterData(model.body?.type ?? FilterType());
+        feedFilterData.value.options?.forEach((element){
+          sortList.add(Options(text: element.text ?? "", value: element.value ?? ""));
+        });
+      }
+      print("Feed Filter Data: ${model.body}");
+    }catch (e){
+      print("Error in API: $e");
+    }
   }
 
   /// Fetches the event feed data from the server.
@@ -141,7 +173,10 @@ class EventFeedController extends GetxController {
       final model = FeedDataModel.fromJson(json.decode(
         await apiService.dynamicPostRequest(
           body: {
-            "filters": {"page": _pageNumber, "type": ""}
+            "filters": {
+              "page": _pageNumber,
+              "type": sortList[sortValue.value].value ?? "public",
+            }
           },
           url: AppUrl.feedGetList,
         ),
@@ -180,7 +215,10 @@ class EventFeedController extends GetxController {
           final model = FeedDataModel.fromJson(json.decode(
             await apiService.dynamicPostRequest(
               body: {
-                "filters": {"page": _pageNumber, "type": ""}
+                "filters": {
+                  "page": _pageNumber,
+                  "type": sortList[sortValue.value].value,
+                }
               },
               url: AppUrl.feedGetList,
             ),
@@ -215,7 +253,7 @@ class EventFeedController extends GetxController {
       feedCmtList.clear();
       feedCmtList.addAll(model.body?.comments ?? []);
       hasNextPageCmt = model.body?.hasNextPage ?? false;
-      _pageNumberCmt = _pageNumberCmt = 1;
+      _pageNumberCmt = _pageNumberCmt + 1;
       _loadMoreFeedComment(feedId: feedId);
     }
   }
@@ -238,7 +276,7 @@ class EventFeedController extends GetxController {
           ));
           if (model.status! && model.code == 200) {
             hasNextPageCmt = model.body?.hasNextPage ?? false;
-            _pageNumberCmt = _pageNumberCmt = 1;
+            _pageNumberCmt = _pageNumberCmt + 1;
             feedCmtList.addAll(model.body?.comments ?? []);
           }
         } catch (e) {
@@ -453,7 +491,6 @@ class EventFeedController extends GetxController {
       return false;
     }
   }
-
 
   /// Clears the media files and resets the state.
   clearTheMedia() {

@@ -245,9 +245,9 @@ class DashboardController extends GetxController
     preferences?.setInt("broadcast_count", broadcastCount.value);
     _authManager.showBadge(false);
     showPopup(false);
-    if (Get.isRegistered<AlertController>()) {
-      Get.delete<AlertController>();
-    }
+    // if (Get.isRegistered<AlertController>()) {
+    //   Get.delete<AlertController>();
+    // }
     Get.toNamed(AlertDashboard.routeName);
   }
 

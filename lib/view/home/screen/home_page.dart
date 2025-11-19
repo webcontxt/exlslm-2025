@@ -130,11 +130,11 @@ class HomePage extends GetView<HomeController> {
                                     height: 140,
                                   ),
                                   //event status 1 means the the event is started else mens the event is not started
-                                  controller.eventStatus.value == 1
+                                  /*controller.eventStatus.value == 1
                                       ? LiveEventWidget(
                                           eventStatus:
                                               controller.eventStatus.value)
-                                      : PreEventWidget(
+                                      : */PreEventWidget(
                                           eventStatus:
                                               controller.eventStatus.value),
                                   if(controller.menuHorizontalHome.isNotEmpty)

@@ -42,6 +42,7 @@ class AlertGeneralPage extends GetView<AlertController> {
                     : ListView.separated(
                         itemCount: controller.broadcastAlertList.length,
                         itemBuilder: (context, index) {
+                          print("listData: ${controller.broadcastAlertList}");
                           return childListItem(index, context, false);
                         },
                         separatorBuilder: (BuildContext context, int index) {

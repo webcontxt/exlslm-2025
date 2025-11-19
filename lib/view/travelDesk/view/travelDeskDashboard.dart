@@ -41,52 +41,53 @@ class TravelDashboardPage extends GetView<TravelDeskController> {
         ),
         title: ToolbarTitle(title: "travelDesk".tr),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: DefaultTabController(
-          initialIndex: 0,
-          length: controller.tabList.length,
-          child: Scaffold(
-            appBar: TabBar(
-              dividerColor: Colors.transparent,
-              isScrollable: true,
-              labelColor: colorPrimary,
-              indicatorColor: Colors.transparent,
-              tabAlignment: TabAlignment.start,
-              onTap: (index) {
-                controller.callApi(index, false);
-              },
-              tabs: <Widget>[
-                ...List.generate(
-                  controller.tabList.length,
-                  (index) => Tab(
-                    text: controller.tabList[index],
-                  ),
-                ),
-              ],
-            ),
-            body: TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                ...List.generate(
-                  controller.tabList.length,
-                  (index) => controller.tabList[index] == "Flight Details"
-                      ? FlightDetailsWidget()
-                      : controller.tabList[index] == "Cab Details"
-                          ? CabDetailsWidget()
-                          : controller.tabList[index] == "Hotel Details"
-                              ? HotelDetailsWidget()
-                              : controller.tabList[index] == "Visa Details"
-                                  ? VisaDetailsWidget()
-                                  : controller.tabList[index] == "Passport"
-                                      ? PassportWidget()
-                                      : Container(),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      body: FlightDetailsWidget(),
+      // body: Padding(
+      //   padding: const EdgeInsets.only(top: 10),
+      //   child: DefaultTabController(
+      //     initialIndex: 0,
+      //     length: controller.tabList.length,
+      //     child: Scaffold(
+      //       appBar: TabBar(
+      //         dividerColor: Colors.transparent,
+      //         isScrollable: true,
+      //         labelColor: colorPrimary,
+      //         indicatorColor: Colors.transparent,
+      //         tabAlignment: TabAlignment.start,
+      //         onTap: (index) {
+      //           controller.callApi(index, false);
+      //         },
+      //         tabs: <Widget>[
+      //           ...List.generate(
+      //             controller.tabList.length,
+      //             (index) => Tab(
+      //               text: controller.tabList[index],
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //       body: TabBarView(
+      //         physics: const NeverScrollableScrollPhysics(),
+      //         children: <Widget>[
+      //           ...List.generate(
+      //             controller.tabList.length,
+      //             (index) => controller.tabList[index] == "Flight Details"
+      //                 ? FlightDetailsWidget()
+      //                 : controller.tabList[index] == "Cab Details"
+      //                     ? CabDetailsWidget()
+      //                     : controller.tabList[index] == "Hotel Details"
+      //                         ? HotelDetailsWidget()
+      //                         : controller.tabList[index] == "Visa Details"
+      //                             ? VisaDetailsWidget()
+      //                             : controller.tabList[index] == "Passport"
+      //                                 ? PassportWidget()
+      //                                 : Container(),
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

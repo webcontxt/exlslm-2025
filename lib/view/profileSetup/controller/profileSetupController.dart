@@ -49,6 +49,8 @@ class EditProfileController extends GetxController {
 
   //used for change the profile tab
   final selectedTabIndex = 0.obs;
+  var selectedCountryCode = "+91".obs;
+  var selectedCountry = "IN".obs;
   final textController = TextEditingController().obs;
   var tempOptionList = <Options>[].obs;
 
@@ -120,6 +122,13 @@ class EditProfileController extends GetxController {
       profileFieldStep2.clear();
       profileFieldStep3.clear();
       profileFieldStep4.clear();
+      profileFieldList.forEach((element){
+        if(element.name == "country_code"){
+          selectedCountryCode.value = element.value !=null && element.value !=""
+              ? "+${element.value}"
+              : "";
+        }
+      });
       profileFieldStep1
           .addAll(profileFieldList.where((u) => u.step == 0).toList());
       profileFieldStep2
@@ -145,6 +154,11 @@ class EditProfileController extends GetxController {
     profileFieldList.addAll(profileFieldStep3);
     profileFieldList.addAll(profileFieldStep4);
     var aiFormKey = [];
+    profileFieldList.forEach((element){
+      if(element.name == "country_code"){
+        element.value = selectedCountryCode.value ;
+      }
+    });
     for (int index = 0; index < profileFieldList.length; index++) {
       var mapList = [];
       var data = profileFieldList[index];

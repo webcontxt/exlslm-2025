@@ -31,7 +31,7 @@
         android:enableOnBackInvokedCallback="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:usesCleartextTraffic="false"
-        android:label="EXLSLM 2025"
+        android:label="EXL 2025"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <receiver

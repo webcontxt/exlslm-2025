@@ -596,12 +596,13 @@ class HubController extends GetxController {
         break;
       case "image-wall":
         if (isLoggedIn()) {
-
+          dashboardController.changeTabIndex(1);
         }
         break;
       case "picbot":
         if (isLoggedIn()) {
-
+          getHtmlPage(
+              title: menuData.label ?? "", slug: "picbot", isExternal: true);
         }
         break;
       case "contact-us":
