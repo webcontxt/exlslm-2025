@@ -122,6 +122,7 @@ dependencies:
   otp_pin_field:
   crop_image:
   image:
+  flutter_html: 
 
 #dependency_overrides:
 #  webview_flutter_android: 3.16.1

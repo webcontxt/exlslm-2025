@@ -143,6 +143,8 @@ class ImageConstant {
   static String search_bar_animated = "assets/svg/search_bar_animated.svg";
 
   static String ic_hub_foryou = "assets/svg/ic_hub_foryou.svg";
+  static String close_popup = "$svgPath/close_popup.svg";
+  static String infoCircleFill = "$svgPath/info-circle-fill.svg";
   static String ic_menu_sessions = "assets/svg/ic_menu_sessions.svg";
   static String svg_meetings = "assets/svg/svg_meetings.svg";
   static String svg_badge = "assets/svg/svg_badge.svg";
@@ -340,4 +342,5 @@ class ImageConstant {
   static String telephoneIcon = '$iconPath/telephone.png';
   static String gmailIcon = '$iconPath/gmail.png';
   static String connectLinkedin = '$svgPath/connect_linkedin.svg';
+  static String sos = '$svgPath/sos.svg';
 }

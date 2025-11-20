@@ -321,7 +321,7 @@ class PreEventWidget extends GetView<HomeController> {
                                               ),
                                               //ic_badge
                                               toolbarWidget(
-                                                  ImageConstant.menu_feedback,
+                                                  ImageConstant.sos,
                                                   3,
                                                   context)
                                             ],
@@ -407,9 +407,10 @@ class PreEventWidget extends GetView<HomeController> {
                       Get.toNamed(InfoFaqDashboard.routeName);
                       break;
                     case 3:
-                      Get.toNamed(FeedbackPage.routeName, arguments: {
-                        MyConstant.titleKey: "Feedback"
-                      });
+                      _dashboardController.changeTabIndex(3);
+                      // Get.toNamed(FeedbackPage.routeName, arguments: {
+                      //   MyConstant.titleKey: "Feedback"
+                      // });
                       break;
                   }
                 },

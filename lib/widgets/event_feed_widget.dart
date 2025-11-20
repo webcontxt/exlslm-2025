@@ -654,159 +654,161 @@ class EventFeedChildWidget extends GetView<EventFeedController> {
             return ConstrainedBox(
               constraints: BoxConstraints(
                   maxHeight: MediaQuery.of(context).size.height * 0.9),
-              child: Stack(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: white,
-                      border: Border.all(color: borderColor, width: 1),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
+              child: SafeArea(
+                child: Stack(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: white,
+                        border: Border.all(color: borderColor, width: 1),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 6, right: 6, bottom: 12),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 15),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomTextView(
-                                  text:
-                                      "Total ${totalComments ?? controller.feedCmtList.length} Comments",
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                  color: colorSecondary,
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child:
-                                      SvgPicture.asset(ImageConstant.icClose),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-                            Divider(color: colorLightGray),
-                            const SizedBox(height: 12),
-                            Expanded(
-                              child: Skeletonizer(
-                                enabled: controller.loading.value,
-                                child: ListView.builder(
-                                    controller: controller.scrollControllerCmt,
-                                    physics:
-                                        const AlwaysScrollableScrollPhysics(),
-                                    //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                                    itemCount: controller.feedCmtList.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      Comments comments =
-                                          controller.feedCmtList[index];
-                                      return CommentBubble(
-                                        comments: comments,
-                                        feedId: posts.id ?? "",
-                                        isMe: PrefUtils.getUserId() ==
-                                                comments.user?.id
-                                            ? true
-                                            : false,
-                                        feedIndex: postIndex,
-                                      );
-                                    }),
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 6, right: 6, bottom: 12),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 15),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomTextView(
+                                    text:
+                                        "Total ${posts.comment!.total} Comments",
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600,
+                                    color: colorSecondary,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child:
+                                        SvgPicture.asset(ImageConstant.icClose),
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(height: 12),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
-                                    border: Border.all(color: borderColor)),
-                                padding: const EdgeInsets.all(3),
-                                width: double.infinity,
-                                child: Row(
-                                  children: [
-                                    const SizedBox(
-                                      width: 12,
-                                    ),
-                                    Expanded(
-                                      child: TextField(
-                                        keyboardType: TextInputType.multiline,
-                                        textInputAction:
-                                            TextInputAction.newline,
-                                        maxLines: 3,
-                                        minLines: 1,
-                                        focusNode: focusNode,
-                                        controller: _messageController,
-                                        style: AppDecoration.setTextStyle(
-                                            fontSize: 16.fSize,
-                                            color: colorSecondary,
-                                            fontWeight: FontWeight.normal),
-                                        decoration: InputDecoration(
-                                            fillColor: white,
-                                            filled: true,
-                                            hintText: "write_public_comment".tr,
-                                            hintStyle:
-                                                AppDecoration.setTextStyle(
-                                                    fontSize: 16.fSize,
-                                                    color: colorGray,
-                                                    fontWeight: FontWeight
-                                                        .normal),
-                                            labelStyle:
-                                                AppDecoration.setTextStyle(
-                                                    fontSize: 16.fSize,
-                                                    color: colorGray,
-                                                    fontWeight:
-                                                        FontWeight.normal),
-                                            border: InputBorder.none),
+                              const SizedBox(height: 5),
+                              Divider(color: colorLightGray),
+                              const SizedBox(height: 12),
+                              Expanded(
+                                child: Skeletonizer(
+                                  enabled: controller.loading.value,
+                                  child: ListView.builder(
+                                      controller: controller.scrollControllerCmt,
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
+                                      //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                                      itemCount: controller.feedCmtList.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        Comments comments =
+                                            controller.feedCmtList[index];
+                                        return CommentBubble(
+                                          comments: comments,
+                                          feedId: posts.id ?? "",
+                                          isMe: PrefUtils.getUserId() ==
+                                                  comments.user?.id
+                                              ? true
+                                              : false,
+                                          feedIndex: postIndex,
+                                        );
+                                      }),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10)),
+                                      border: Border.all(color: borderColor)),
+                                  padding: const EdgeInsets.all(3),
+                                  width: double.infinity,
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(
+                                        width: 12,
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    SizedBox(
-                                      height: 46,
-                                      width: 46,
-                                      child: FloatingActionButton(
-                                          onPressed: () {
-                                            FocusScope.of(context).unfocus();
-                                            _sendMessage(index, posts);
-                                          },
-                                          backgroundColor: colorPrimary,
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: SvgPicture.asset(
-                                            ImageConstant.send_icon_svg,
-                                            // colorFilter: ColorFilter.mode(
-                                            //   Theme.of(context).colorScheme.onSurface,
-                                            //   BlendMode.srcIn),
-                                          )),
-                                    )
-                                  ],
+                                      Expanded(
+                                        child: TextField(
+                                          keyboardType: TextInputType.multiline,
+                                          textInputAction:
+                                              TextInputAction.newline,
+                                          maxLines: 3,
+                                          minLines: 1,
+                                          focusNode: focusNode,
+                                          controller: _messageController,
+                                          style: AppDecoration.setTextStyle(
+                                              fontSize: 16.fSize,
+                                              color: colorSecondary,
+                                              fontWeight: FontWeight.normal),
+                                          decoration: InputDecoration(
+                                              fillColor: white,
+                                              filled: true,
+                                              hintText: "write_public_comment".tr,
+                                              hintStyle:
+                                                  AppDecoration.setTextStyle(
+                                                      fontSize: 16.fSize,
+                                                      color: colorGray,
+                                                      fontWeight: FontWeight
+                                                          .normal),
+                                              labelStyle:
+                                                  AppDecoration.setTextStyle(
+                                                      fontSize: 16.fSize,
+                                                      color: colorGray,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                              border: InputBorder.none),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 15,
+                                      ),
+                                      SizedBox(
+                                        height: 46,
+                                        width: 46,
+                                        child: FloatingActionButton(
+                                            onPressed: () {
+                                              FocusScope.of(context).unfocus();
+                                              _sendMessage(index, posts);
+                                            },
+                                            backgroundColor: colorPrimary,
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: SvgPicture.asset(
+                                              ImageConstant.send_icon_svg,
+                                              // colorFilter: ColorFilter.mode(
+                                              //   Theme.of(context).colorScheme.onSurface,
+                                              //   BlendMode.srcIn),
+                                            )),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  controller.loading.value ? const Loading() : const SizedBox()
-                ],
+                    controller.loading.value ? const Loading() : const SizedBox()
+                  ],
+                ),
               ),
             );
           });

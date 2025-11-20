@@ -21,6 +21,7 @@ import 'package:pinput/pinput.dart';
 import '../../../main.dart';
 import '../../../model/common_model.dart';
 import '../../../utils/pref_utils.dart';
+import '../../../widgets/dialog/customLoginDialogWidget.dart';
 import 'login_response.dart';
 
 class LoginController extends GetxController {
@@ -70,6 +71,53 @@ class LoginController extends GetxController {
     super.onInit();
     _authManager = Get.find();
     _authManager.checkUpdate();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    _showDefaultPopup();
+  }
+
+  _showDefaultPopup() async {
+    await Get.dialog(
+        barrierColor: colorSecondary.withOpacity(0.9),
+        barrierDismissible: false,
+        PopScope(
+          canPop: false,
+          child: CustomLoginDialogWidget(
+            title: _authManager.configModel.body?.login_info_title ??
+                "Employee Notice – *Event Application*",
+            description:
+                _authManager.configModel.body?.login_info_description ??
+                    """
+<!DOCTYPE html>
+<html>
+<head>
+<title>Employee Notice</title>
+</head>
+<body>
+<p>
+Employee Notice – <strong>Event Application</strong><br><br>
+Using the event application (Dreamcast) is voluntary.<br>
+Choosing not to log in will not impact your employment or benefits.<br><br>
+If you proceed, Dreamcast (as the Data Controller) may collect limited information such as:<br>
+• Name, email, and contact details<br>
+• Event preferences<br>
+• Event photos<br><br>
+Your data will be processed solely for event-related purposes in line with applicable data protection laws and Dreamcast’s Privacy Policy.<br><br>
+Please review the Dreamcast Privacy Policy available on their website before proceeding.
+</p>
+</body>
+</html>
+""",
+            buttonAction: "Ok",
+            buttonCancel: "cancel".tr,
+            isHideCancelBtn: true,
+            onCancelTap: () {},
+            onActionTap: () async {},
+          ),
+        ));
   }
 
   /// Starts a periodic timer for OTP countdown.

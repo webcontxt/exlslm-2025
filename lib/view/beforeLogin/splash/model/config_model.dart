@@ -26,6 +26,8 @@ class ConfigModel {
 }
 
 class Body {
+  String? login_info_title;
+  String? login_info_description;
   QuickLinks? quickLinks;
   Config? config;
   Meta? meta;
@@ -40,7 +42,10 @@ class Body {
   SessionSettings? sessionSettings;
 
   Body(
-      {this.config,
+      {
+        this.login_info_title,
+        this.login_info_description,
+        this.config,
       this.meta,
       this.pages,
         this.reportOptions,
@@ -52,6 +57,8 @@ class Body {
       this.themeSetting});
 
   Body.fromJson(Map<String, dynamic> json) {
+    login_info_title = json['login_info_title'];
+    login_info_description = json['login_info_description'];
     config =
         json['config'] != null ? new Config.fromJson(json['config']) : null;
     meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
@@ -77,6 +84,8 @@ class Body {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['login_info_title'] = this.login_info_title;
+    data['login_info_description'] = this.login_info_description;
     if (this.config != null) {
       data['config'] = this.config!.toJson();
     }

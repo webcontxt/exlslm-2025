@@ -9,10 +9,12 @@ import 'package:dreamcast/view/beforeLogin/login/login_controller.dart';
 import 'package:dreamcast/view/beforeLogin/widget/loginOtpWidget.dart';
 import 'package:dreamcast/widgets/textview/customTextView.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:signin_with_linkedin/signin_with_linkedin.dart';
 import '../../../api_repository/app_url.dart';
 import '../../../utils/pref_utils.dart';
+import '../../../widgets/dialog/customLoginDialogWidget.dart';
 import '../../../widgets/dialog/custom_dialog_widget.dart';
 import '../../../widgets/button/common_material_button.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,7 @@ import 'loginEmailFieldWidget.dart';
 
 class LoginFormWidget extends GetView<LoginController> {
   bool isGuestForm;
+
   LoginFormWidget({super.key, required this.isGuestForm});
 
   final AuthenticationManager _authmanager = Get.find();
@@ -41,8 +44,8 @@ class LoginFormWidget extends GetView<LoginController> {
             margin: isGuestForm
                 ? EdgeInsets.zero
                 : EdgeInsets.symmetric(vertical: 0, horizontal: 35.adaptSize),
-            padding:  EdgeInsets.only(
-                top: isGuestForm?0:30, bottom: 30, left: 30, right: 30),
+            padding: EdgeInsets.only(
+                top: isGuestForm ? 0 : 30, bottom: 30, left: 30, right: 30),
             decoration: BoxDecoration(
                 color: lightGray,
                 borderRadius: const BorderRadius.all(Radius.circular(12))),
@@ -52,35 +55,96 @@ class LoginFormWidget extends GetView<LoginController> {
               children: [
                 controller.isOtpSend.value
                     ? CustomTextView(
-                  text: controller.sentOTPMessage.value,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: colorSecondary,
-                  maxLines: 3,
-                  textAlign: TextAlign.center,
-                )
+                        text: controller.sentOTPMessage.value,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: colorSecondary,
+                        maxLines: 3,
+                        textAlign: TextAlign.center,
+                      )
                     : isGuestForm == false
-                    ? CustomTextView(
-                  text: "enter_your_detail".tr,
-                  fontSize: 26,
-                  color: colorSecondary,
-                  fontWeight: FontWeight.w600,
-                )
-                    : const SizedBox(),
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CustomTextView(
+                                text: "enter_your_detail".tr,
+                                fontSize: 26,
+                                color: colorSecondary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              // if(_authmanager.configModel.body?.pages?.signup?.url != null &&
+                              //     _authmanager.configModel.body!.pages!.signup!.url!.isNotEmpty)
+                              SizedBox(width: 7.v),
+                              // if(_authmanager.configModel.body?.pages?.signup?.url != null &&
+                              //     _authmanager.configModel.body!.pages!.signup!.url!.isNotEmpty)
+                              InkWell(
+                                onTap: () async {
+                                  await Get.dialog(
+                                      barrierColor:
+                                          colorSecondary.withOpacity(0.9),
+                                      barrierDismissible: false,
+                                      PopScope(
+                                        canPop: false,
+                                        child: CustomLoginDialogWidget(
+                                          title: _authmanager.configModel.body
+                                                  ?.login_info_title ??
+                                              "Employee Notice – *Event Application*",
+                                          description: _authmanager
+                                                  .configModel
+                                                  .body
+                                                  ?.login_info_description ??
+                                              """
+<!DOCTYPE html>
+<html>
+<head>
+<title>Employee Notice</title>
+</head>
+<body>
+<p>
+Employee Notice – <strong>Event Application</strong><br><br>
+Using the event application (Dreamcast) is voluntary.<br>
+Choosing not to log in will not impact your employment or benefits.<br><br>
+If you proceed, Dreamcast (as the Data Controller) may collect limited information such as:<br>
+• Name, email, and contact details<br>
+• Event preferences<br>
+• Event photos<br><br>
+Your data will be processed solely for event-related purposes in line with applicable data protection laws and Dreamcast’s Privacy Policy.<br><br>
+Please review the Dreamcast Privacy Policy available on their website before proceeding.
+</p>
+</body>
+</html>
+""",
+                                          buttonAction: "Ok",
+                                          buttonCancel: "cancel".tr,
+                                          isHideCancelBtn: true,
+                                          onCancelTap: () {},
+                                          onActionTap: () async {},
+                                        ),
+                                      ));
+                                },
+                                child: SvgPicture.asset(
+                                  ImageConstant.infoCircleFill,
+                                  height: 23,
+                                  width: 23,
+                                  color: colorSecondary,
+                                ),
+                              )
+                            ],
+                          )
+                        : const SizedBox(),
                 SizedBox(
                   height: 28.v,
                 ),
                 controller.isOtpSend.value
                     ? LoginOTPWidget(
-                  isGuestForm: isGuestForm,
-                )
-                    : LoginEmailWidget(
-                  isGuestForm: isGuestForm
-                ),
+                        isGuestForm: isGuestForm,
+                      )
+                    : LoginEmailWidget(isGuestForm: isGuestForm),
                 controller.isOtpSend.value
                     ? const SizedBox(
-                  height: 0,
-                )
+                        height: 0,
+                      )
                     : SizedBox(height: 20.v),
                 CommonMaterialButton(
                   height: 55.v,
@@ -139,29 +203,29 @@ class LoginFormWidget extends GetView<LoginController> {
                 //     ? loginWithLinked(context)
                 //     : const SizedBox(),
                 (isGuestForm ||
-                    controller.isOtpSend.value ||
-                    PrefUtils.getGuestLogin() == false)
+                        controller.isOtpSend.value ||
+                        PrefUtils.getGuestLogin() == false)
                     ? const SizedBox()
                     : TextButton(
-                    onPressed: () {
-                      PrefUtils.clearPreferencesData();
-                      PrefUtils.saveTimezone(
-                        (_authmanager.configModel.body?.defaultTimezone
-                            ?.isNotEmpty ??
-                            false)
-                            ? _authmanager
-                            .configModel.body!.defaultTimezone!
-                            : "Asia/Kolkata",
-                      );
-                      isGuestForm
-                          ? Get.back()
-                          : Get.offAllNamed(DashboardPage.routeName);
-                    },
-                    child: CustomTextView(
-                      text: "login_as_guest".tr,
-                      fontSize: 18,
-                      color: colorPrimary,
-                    )),
+                        onPressed: () {
+                          PrefUtils.clearPreferencesData();
+                          PrefUtils.saveTimezone(
+                            (_authmanager.configModel.body?.defaultTimezone
+                                        ?.isNotEmpty ??
+                                    false)
+                                ? _authmanager
+                                    .configModel.body!.defaultTimezone!
+                                : "Asia/Kolkata",
+                          );
+                          isGuestForm
+                              ? Get.back()
+                              : Get.offAllNamed(DashboardPage.routeName);
+                        },
+                        child: CustomTextView(
+                          text: "login_as_guest".tr,
+                          fontSize: 18,
+                          color: colorPrimary,
+                        )),
                 controller.isOtpSend.value
                     ? backButton(isDarkMode)
                     : signupButton()
@@ -176,122 +240,122 @@ class LoginFormWidget extends GetView<LoginController> {
   Widget loginWithApple(BuildContext context) {
     return Platform.isIOS
         ? CommonMaterialButton(
-      borderWidth: 1,
-      borderColor: colorSecondary,
-      color: white,
-      svgIcon: "assets/svg/AppleLogo.svg",
-      iconHeight: 15,
-      height: 52.v,
-      text: "continue_with_apple".tr,
-      textSize: 16,
-      textColor: colorSecondary,
-      weight: FontWeight.w500,
-      onPressed: () async {
-        try {
-          // Retrieve the Apple Sign-In credential
-          final credential = await SignInWithApple.getAppleIDCredential(
-            scopes: [
-              AppleIDAuthorizationScopes.email,
-            ],
-            webAuthenticationOptions: WebAuthenticationOptions(
-              clientId: "signInAppleClientId".tr,
-              redirectUri: Uri.parse("signInWithAppleUrl".tr),
-            ),
-            nonce: 'example-nonce',
-            state: 'example-state',
-          );
+            borderWidth: 1,
+            borderColor: colorSecondary,
+            color: white,
+            svgIcon: "assets/svg/AppleLogo.svg",
+            iconHeight: 15,
+            height: 52.v,
+            text: "continue_with_apple".tr,
+            textSize: 16,
+            textColor: colorSecondary,
+            weight: FontWeight.w500,
+            onPressed: () async {
+              try {
+                // Retrieve the Apple Sign-In credential
+                final credential = await SignInWithApple.getAppleIDCredential(
+                  scopes: [
+                    AppleIDAuthorizationScopes.email,
+                  ],
+                  webAuthenticationOptions: WebAuthenticationOptions(
+                    clientId: "signInAppleClientId".tr,
+                    redirectUri: Uri.parse("signInWithAppleUrl".tr),
+                  ),
+                  nonce: 'example-nonce',
+                  state: 'example-state',
+                );
 
-          // Check if email is available in the credential
-          if (credential.email != null) {
-            // If email is available, store it securely
-            await _storage.write(
-                key: "user_email", value: credential.email);
-            print("Email stored securely: ${credential.email}");
+                // Check if email is available in the credential
+                if (credential.email != null) {
+                  // If email is available, store it securely
+                  await _storage.write(
+                      key: "user_email", value: credential.email);
+                  print("Email stored securely: ${credential.email}");
 
-            var loginRequest = {
-              'email': credential.email.toString(),
-              "verification_code": "242526",
-              "login_via": "apple",
-            };
-            controller.commonLoginApi(
-                requestBody: loginRequest,
-                isGuestForm: isGuestForm,
-                url: AppUrl.loginByOTP,
-                context: context);
-          } else {
-            // If email is null, fallback to the stored email
-            String? storedEmail = await _storage.read(key: "user_email");
-            if (storedEmail != null) {
-              print("Using stored email: $storedEmail");
-              var loginRequest = {
-                'email': storedEmail,
-                "verification_code": "242526",
-                "login_via": "apple",
-              };
-              controller.commonLoginApi(
-                  requestBody: loginRequest,
-                  isGuestForm: isGuestForm,
-                  url: AppUrl.loginByOTP,
-                  context: context);
-            } else {
-              // Handle the case where no email is available
-              print("No email available for login.");
-              // Optionally, show a message to the user
-              UiHelper.showFailureMsg(
-                  context, "Unable to sign in. Email not available.");
-            }
-          }
-        } catch (e) {
-          print("Error during Apple Sign-In: $e");
-          // Handle the error appropriately, e.g., show an error message
-          //UiHelper.showFailureMsg(context, "Error during Apple Sign-In: $e");
-        }
-      },
-    )
+                  var loginRequest = {
+                    'email': credential.email.toString(),
+                    "verification_code": "242526",
+                    "login_via": "apple",
+                  };
+                  controller.commonLoginApi(
+                      requestBody: loginRequest,
+                      isGuestForm: isGuestForm,
+                      url: AppUrl.loginByOTP,
+                      context: context);
+                } else {
+                  // If email is null, fallback to the stored email
+                  String? storedEmail = await _storage.read(key: "user_email");
+                  if (storedEmail != null) {
+                    print("Using stored email: $storedEmail");
+                    var loginRequest = {
+                      'email': storedEmail,
+                      "verification_code": "242526",
+                      "login_via": "apple",
+                    };
+                    controller.commonLoginApi(
+                        requestBody: loginRequest,
+                        isGuestForm: isGuestForm,
+                        url: AppUrl.loginByOTP,
+                        context: context);
+                  } else {
+                    // Handle the case where no email is available
+                    print("No email available for login.");
+                    // Optionally, show a message to the user
+                    UiHelper.showFailureMsg(
+                        context, "Unable to sign in. Email not available.");
+                  }
+                }
+              } catch (e) {
+                print("Error during Apple Sign-In: $e");
+                // Handle the error appropriately, e.g., show an error message
+                //UiHelper.showFailureMsg(context, "Error during Apple Sign-In: $e");
+              }
+            },
+          )
         : const SizedBox();
   }
 
   Widget loginWithLinked(BuildContext context) {
     return _authmanager.linkedInConfig != null
         ? CommonMaterialButton(
-      borderWidth: 1,
-      borderColor: colorSecondary,
-      color: white,
-      svgIcon: "assets/svg/linkedin.svg",
-      iconHeight: 15,
-      height: 52.v,
-      text: "continue_with_linkedin".tr,
-      textSize: 16,
-      textColor: colorSecondary,
-      svgIconColor: colorPrimary,
-      weight: FontWeight.w500,
-      onPressed: () async {
-        SignInWithLinkedIn.logout();
-        SignInWithLinkedIn.signIn(
-          context,
-          config: _authmanager.linkedInConfig!,
-          onGetUserProfile: (tokenData, user) {
-            print('Auth token data: ${tokenData.accessToken}');
-            print('LinkedIn User: ${user.toJson()}');
-            if (user?.email != null && user!.email!.isNotEmpty) {
-              var loginRequest = {
-                'code': tokenData.accessToken ?? "",
-              };
-              controller.commonLoginApi(
-                  requestBody: loginRequest,
-                  isGuestForm: isGuestForm,
-                  url: AppUrl.linkedInLoginApi,
-                  context: context);
-            } else {
-              UiHelper.showFailureMsg(context, "user_not_found".tr);
-            }
-          },
-          onSignInError: (error) {
-            print('Error on sign in: $error');
-          },
-        );
-      },
-    )
+            borderWidth: 1,
+            borderColor: colorSecondary,
+            color: white,
+            svgIcon: "assets/svg/linkedin.svg",
+            iconHeight: 15,
+            height: 52.v,
+            text: "continue_with_linkedin".tr,
+            textSize: 16,
+            textColor: colorSecondary,
+            svgIconColor: colorPrimary,
+            weight: FontWeight.w500,
+            onPressed: () async {
+              SignInWithLinkedIn.logout();
+              SignInWithLinkedIn.signIn(
+                context,
+                config: _authmanager.linkedInConfig!,
+                onGetUserProfile: (tokenData, user) {
+                  print('Auth token data: ${tokenData.accessToken}');
+                  print('LinkedIn User: ${user.toJson()}');
+                  if (user?.email != null && user!.email!.isNotEmpty) {
+                    var loginRequest = {
+                      'code': tokenData.accessToken ?? "",
+                    };
+                    controller.commonLoginApi(
+                        requestBody: loginRequest,
+                        isGuestForm: isGuestForm,
+                        url: AppUrl.linkedInLoginApi,
+                        context: context);
+                  } else {
+                    UiHelper.showFailureMsg(context, "user_not_found".tr);
+                  }
+                },
+                onSignInError: (error) {
+                  print('Error on sign in: $error');
+                },
+              );
+            },
+          )
         : const SizedBox();
   }
 
@@ -302,31 +366,30 @@ class LoginFormWidget extends GetView<LoginController> {
         SizedBox(height: 24.v),
         controller.isOtpSend.value
             ? InkWell(
-          onTap: () {
-            controller.isOtpSend(false);
-          },
-          child: Container(
-            alignment: Alignment.center,
-            padding:
-            const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-            height: 29,
-            width: 73,
-            decoration: BoxDecoration(
-              color:
-              isDarkMode ? const Color(0xff8A8A8E) : white,
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-            ),
-            child: Center(
-              child: CustomTextView(
-                text: "back".tr,
-                fontWeight: FontWeight.w500,
-                textAlign: TextAlign.center,
-                color: colorSecondary,
-                fontSize: 16,
-              ),
-            ),
-          ),
-        )
+                onTap: () {
+                  controller.isOtpSend(false);
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                  height: 29,
+                  width: 73,
+                  decoration: BoxDecoration(
+                    color: isDarkMode ? const Color(0xff8A8A8E) : white,
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  ),
+                  child: Center(
+                    child: CustomTextView(
+                      text: "back".tr,
+                      fontWeight: FontWeight.w500,
+                      textAlign: TextAlign.center,
+                      color: colorSecondary,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              )
             : const SizedBox(),
       ],
     );
@@ -342,64 +405,64 @@ class LoginFormWidget extends GetView<LoginController> {
             borderRadius: const BorderRadius.all(Radius.circular(12))),
         margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 40),
         padding:
-        const EdgeInsets.only(top: 42, bottom: 30, left: 25, right: 25),
+            const EdgeInsets.only(top: 42, bottom: 30, left: 25, right: 25),
         child: SingleChildScrollView(
           child: Obx(() => Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CustomTextView(
-                  text: "signup".tr,
-                  fontSize: 26,
-                  color: colorSecondary,
-                  fontWeight: FontWeight.w600,
-                ),
-                SizedBox(
-                  height: 28.v,
-                ),
-                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: loginWithWeb(),
+                    CustomTextView(
+                      text: "signup".tr,
+                      fontSize: 26,
+                      color: colorSecondary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    SizedBox(
+                      height: 28.v,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: loginWithWeb(),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: loginWithWhatsApp(),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 40.v,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        controller.signupform.value = false;
+                      },
+                      child: Container(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              CustomTextView(
+                                text: "already_have_account".tr,
+                                color: colorSecondary,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                              ),
+                              CustomTextView(
+                                  text: "Sign In",
+                                  underline: true,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: colorPrimary),
+                              //RegularTextView(text: login ? MyStrings.signup : "Login",color: primaryColor,)
+                            ],
+                          )),
                     )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: loginWithWhatsApp(),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 40.v,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    controller.signupform.value = false;
-                  },
-                  child: Container(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CustomTextView(
-                            text: "already_have_account".tr,
-                            color: colorSecondary,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14,
-                          ),
-                          CustomTextView(
-                              text: "Sign In",
-                              underline: true,
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              color: colorPrimary),
-                          //RegularTextView(text: login ? MyStrings.signup : "Login",color: primaryColor,)
-                        ],
-                      )),
-                )
-              ])),
+                  ])),
         ),
       ),
     );
@@ -407,48 +470,48 @@ class LoginFormWidget extends GetView<LoginController> {
 
   Widget signupButton() {
     return (_authmanager.configModel.body?.pages?.signup?.whatsApp != null &&
-        _authmanager
-            .configModel.body!.pages!.signup!.whatsApp!.isNotEmpty) ||
-        (_authmanager.configModel.body?.pages?.signup?.url != null &&
-            _authmanager.configModel.body!.pages!.signup!.url!.isNotEmpty)
+                _authmanager
+                    .configModel.body!.pages!.signup!.whatsApp!.isNotEmpty) ||
+            (_authmanager.configModel.body?.pages?.signup?.url != null &&
+                _authmanager.configModel.body!.pages!.signup!.url!.isNotEmpty)
         ? Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(height: 24.v),
-        GestureDetector(
-          onTap: () {
-            if ((_authmanager.configModel.body?.pages?.signup?.whatsApp !=
-                null &&
-                _authmanager.configModel.body!.pages!.signup!
-                    .whatsApp!.isNotEmpty) &&
-                (_authmanager.configModel.body?.pages?.signup?.url !=
-                    null &&
-                    _authmanager.configModel.body!.pages!.signup!.url!
-                        .isNotEmpty)) {
-              controller.signupform.value = true;
-            } else if (_authmanager
-                .configModel.body?.pages?.signup?.whatsApp !=
-                null &&
-                _authmanager.configModel.body!.pages!.signup!.whatsApp!
-                    .isNotEmpty) {
-              UiHelper.inAppBrowserView(Uri.parse(_authmanager
-                  .configModel.body!.pages!.signup!.whatsApp ??
-                  ""));
-            } else {
-              UiHelper.inAppBrowserView(Uri.parse(
-                  _authmanager.configModel.body!.pages!.signup!.url ??
-                      ""));
-            }
-          },
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: const AlreadyHaveAnAccountCheck(
-              true,
-            ),
-          ),
-        )
-      ],
-    )
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 24.v),
+              GestureDetector(
+                onTap: () {
+                  if ((_authmanager.configModel.body?.pages?.signup?.whatsApp !=
+                              null &&
+                          _authmanager.configModel.body!.pages!.signup!
+                              .whatsApp!.isNotEmpty) &&
+                      (_authmanager.configModel.body?.pages?.signup?.url !=
+                              null &&
+                          _authmanager.configModel.body!.pages!.signup!.url!
+                              .isNotEmpty)) {
+                    controller.signupform.value = true;
+                  } else if (_authmanager
+                              .configModel.body?.pages?.signup?.whatsApp !=
+                          null &&
+                      _authmanager.configModel.body!.pages!.signup!.whatsApp!
+                          .isNotEmpty) {
+                    UiHelper.inAppBrowserView(Uri.parse(_authmanager
+                            .configModel.body!.pages!.signup!.whatsApp ??
+                        ""));
+                  } else {
+                    UiHelper.inAppBrowserView(Uri.parse(
+                        _authmanager.configModel.body!.pages!.signup!.url ??
+                            ""));
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: const AlreadyHaveAnAccountCheck(
+                    true,
+                  ),
+                ),
+              )
+            ],
+          )
         : const SizedBox();
   }
 
@@ -503,9 +566,9 @@ class LoginFormWidget extends GetView<LoginController> {
               },
               child: controller.isDisclamer.value
                   ? Icon(
-                Icons.check_box,
-                color: colorSecondary,
-              )
+                      Icons.check_box,
+                      color: colorSecondary,
+                    )
                   : const Icon(Icons.check_box_outline_blank)),
         ),
         const SizedBox(

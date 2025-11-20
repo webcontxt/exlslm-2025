@@ -238,54 +238,75 @@ class EventFeedController extends GetxController {
     });
   }
 
+
+  String? currentFeedIdCmt;
+
   /// Featch the comment list for the feed post.
-  Future<void> getFeedCommentList({feedId}) async {
+  Future<void> getFeedCommentList({required feedId}) async {
+    currentFeedIdCmt = feedId;       // store correct feedId
     _pageNumberCmt = 1;
     loading(true);
-    final model = FeedCommentModel.fromJson(json.decode(
-      await apiService.dynamicPostRequest(body: {
-        "feed_id": feedId,
-        "filters": {"page": _pageNumberCmt, "hasNextPage": false}
-      }, url: AppUrl.feedCommentGet),
-    ));
+    final model = FeedCommentModel.fromJson(
+      json.decode(
+        await apiService.dynamicPostRequest(
+          body: {
+            "feed_id": feedId,
+            "filters": {"page": _pageNumberCmt, "hasNextPage": false}
+          },
+          url: AppUrl.feedCommentGet,
+        ),
+      ),
+    );
     loading(false);
     if (model.status ?? false) {
       feedCmtList.clear();
       feedCmtList.addAll(model.body?.comments ?? []);
       hasNextPageCmt = model.body?.hasNextPage ?? false;
-      _pageNumberCmt = _pageNumberCmt + 1;
-      _loadMoreFeedComment(feedId: feedId);
+      _pageNumberCmt++;
+      /// 🧹 Remove old scroll listener before adding new one
+      scrollControllerCmt.removeListener(_commentScrollListener);
+      /// ➕ Add listener again
+      scrollControllerCmt.addListener(_commentScrollListener);
     }
   }
 
   ///load more comments when the user scrolls to the bottom of the comment list.
-  Future<void> _loadMoreFeedComment({feedId}) async {
-    scrollControllerCmt.addListener(() async {
-      if (hasNextPageCmt == true &&
-          isFirstLoadRunning.value == false &&
-          isLoadMoreRunningCmt.value == false &&
-          scrollControllerCmt.position.maxScrollExtent ==
-              scrollControllerCmt.position.pixels) {
-        isLoadMoreRunningCmt(true);
-        try {
-          final model = FeedCommentModel.fromJson(json.decode(
-            await apiService.dynamicPostRequest(body: {
-              "feed_id": feedId,
-              "filters": {"page": _pageNumberCmt, "hasNextPage": false}
-            }, url: AppUrl.feedCommentGet),
-          ));
-          if (model.status! && model.code == 200) {
-            hasNextPageCmt = model.body?.hasNextPage ?? false;
-            _pageNumberCmt = _pageNumberCmt + 1;
-            feedCmtList.addAll(model.body?.comments ?? []);
-          }
-        } catch (e) {
-          print(e.toString());
-        }
-        isLoadMoreRunningCmt(false);
-      }
-    });
+  void _commentScrollListener() {
+    if (hasNextPageCmt == true &&
+        isFirstLoadRunning.value == false &&
+        isLoadMoreRunningCmt.value == false &&
+        scrollControllerCmt.position.maxScrollExtent ==
+            scrollControllerCmt.position.pixels) {
+      _loadMoreFeedComment();
+    }
   }
+  Future<void> _loadMoreFeedComment() async {
+    if (currentFeedIdCmt == null) return;
+    isLoadMoreRunningCmt(true);
+    try {
+      final model = FeedCommentModel.fromJson(
+        json.decode(
+          await apiService.dynamicPostRequest(
+            body: {
+              "feed_id": currentFeedIdCmt,
+              "filters": {"page": _pageNumberCmt, "hasNextPage": false}
+            },
+            url: AppUrl.feedCommentGet,
+          ),
+        ),
+      );
+      if (model.status! && model.code == 200) {
+        hasNextPageCmt = model.body?.hasNextPage ?? false;
+        _pageNumberCmt++;
+        feedCmtList.addAll(model.body?.comments ?? []);
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    isLoadMoreRunningCmt(false);
+  }
+
 
   /// Scrolls to the bottom of the comment list.
   void scrollToBottom() {
